@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Add a topic-based content type information</title>
+  </head>
+  <body>
+    <h1>Add a topicbased content type information</h1>
+    <p>
+      Allows creation of topic-instances through the CMF machinery. The object
+      identity and portal_type name is retrieved from the topic.
+    </p>                                            
+    <p class="warning" tal:condition="exists:options/error" tal:content="options/error"></p>
+    <form action="" method="post" tal:attributes="action request/ACTUAL_URL">
+      <label for="psi">Subject identifier:</label> <input id="psi" type="text" name="psi" value="">
+      <input type="submit" name="submit_add" value="Add">
+    </form>
+  </body>
+</html>

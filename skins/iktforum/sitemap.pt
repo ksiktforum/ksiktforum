@@ -1,0 +1,23 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title metal:fill-slot="titleslot">Nettstedskart</title>    
+  </head>
+  <body> 
+    <div class="yui-gc" style="padding: 1.2em;" metal:fill-slot="full" tal:define="content context/person_view.py">    
+      <h1>Sentrale temaer</h1>
+      
+      <tal:sitemap tal:define="sitemap context/sitemap_generator">
+      <tal:subject tal:repeat="subject sitemap">
+      <h2 class="decoration decoration_bg_ffffff">
+        <a href="" tal:attributes="href subject/url" tal:content="subject/title">test</a>
+      </h2>     
+      <ul class="contentlisting arrow arrow_003365" tal:define="subjects subject/subjects" tal:condition="subjects">
+        <li tal:repeat="subject subjects">
+          <a href="#" tal:content="subject/title" tal:attributes="href subject/url"></a>
+        </li>
+      </ul>
+      </tal:subject>
+      </tal:sitemap>
+    </div>    
+  </body>
+</html>

@@ -1,0 +1,150 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title>temaside</title>
+  </head>
+  <body>
+    <div class="yui-gc" metal:fill-slot="full" tal:define="subjectcontent context/tema_view.py">
+
+    
+      <div id="subjectpagetopwrapper" class="clearfix">
+        <div id="subject" >
+        <h1 class="decoration decoration_bg_ecf0d5" tal:content="content/title">Tema:</h1>
+        <div class="ingress marginleftextra" tal:condition="content/ingress" tal:content="structure content/ingress"></div>
+        <div class="text">
+          <p tal:replace="structure content/text"></p>
+        </div>
+      </div>
+      <div id="campaign" class="clearfix" tal:define="image content/image | nothing" tal:condition="image">      
+        <img tal:condition="image" tal:attributes="src image/url; alt image/alttext">
+      </div>
+      </div>
+    
+
+      <div id="fullFirstColumn" class="clearfix">
+        <h2 class="decoration decoration_bg_ffffff">Aktuelt om <tal:title tal:replace="content/title"></tal:title></h2>
+        <ol class="contentlisting enhanced" tal:define="priority_content subjectcontent/priority_content"
+                                   tal:condition="priority_content"
+          >
+          <li class="clearfix" tal:repeat="priority priority_content">
+            <h3 tal:content="priority/title_or_id">Donec placerat nisl quis odio</h3>            
+            <img width="120px" alt="" src="" tal:condition="priority/imagedata" tal:attributes="src priority/imagedata/url">
+            <div style="float: left;" tal:attributes="class python: test(priority['imagedata'], 'width70','')">            
+              <p><span class="date" tal:content="priority/type_and_date">Artikkel, 05.05.2007</span><tal:ingress tal:content="structure priority/ingress"></tal:ingress></p>
+              <a class="hideme" href="#" tal:attributes="href priority/absolute_url">Les mer</a><span class="hidden"> om <tal:title tal:replace="priority/title_or_id">tittel</tal:title></span>
+            </div>
+          </li>
+        </ol>
+        
+        <tal:latest tal:define="latest_content subjectcontent/latest_content" tal:condition="latest_content">
+        <h2 class="decoration decoration_bg_ffffff bordertop">Sist publisert om <tal:title tal:replace="content/title"></tal:title>:</h2>
+        <ol class="contentlisting nopadding summary enhanced marginleft"
+                                           tal:condition="latest_content"
+        >          
+          <li tal:repeat="lc latest_content/content">            
+            <h3>            
+              <a href="#" tal:attributes="href lc/absolute_url" tal:content="lc/title_or_id">Duis dignissim mattis sem. Cras ante. Etiam posuere laoreet magna.</a> 
+            </h3>
+            ( <span class="date" tal:content="lc/type_and_date">Artikkel, 04.05.2007</span> )
+          </li>        
+          <li><a class="arrow arrow_003365" href="#" tal:attributes="href latest_content/more_url">Flere aktuelle saker kategorisert under <tal:title tal:replace="content/title"></tal:title> (<tal:result_length tal:replace="latest_content/result_length"/>)</a></li>
+        </ol>
+        </tal:latest>
+
+      </div>
+      
+      
+      
+      <div id="fullSecondColumn" class="clearfix">
+        <div class="borderbox box" tal:condition="python: content['display'] or subjectcontent['display']">
+          <tal:specializations tal:define="specializations content/specializations | nothing"
+                               tal:condition="specializations"
+          >
+            <h2>Utforsk temaet</h2>        
+            <ul class="contentlisting nopadding arrow arrow_003365">
+              <li tal:repeat="specialization specializations">
+                <a href="" tal:attributes="href specialization/absolute_url"              
+                           tal:content="specialization/Title"                
+                >Fri programvare</a>
+              </li>            
+            </ul>
+          </tal:specializations>
+          <tal:contactpersons tal:define="contactpersons content/contactpersons | nothing"
+                              tal:condition="contactpersons"
+          >
+            <h2>Kontakt / ressurs</h2>
+            <ul class="">
+              <li class="clearfix" tal:repeat="contactperson contactpersons">
+                <h3 style="margin-bottom: 0.5em;"><a class="arrow arrow_003365" href="" tal:attributes="href contactperson/absolute_url" 
+                               tal:content="contactperson/title_or_id">Svein Arild Myrer</a>
+                </h3>
+                <!--
+                <dl>
+                  <dt>Epost:</dt>
+                  <dd><a href="#" tal:attributes="href string:mailto:${contactperson/email}"               
+                                  tal:content="contactperson/email">svein.arild.myrer@bouvet.no</a></dd>
+                  <dt>Telefon:</dt>
+                  <dd tal:content="contactperson/phone">93860324</dd>
+                </dl>
+                -->
+              </li>            
+            </ul>
+          </tal:contactpersons>
+          <tal:attachments tal:define="attachments content/attachments | nothing"
+                           tal:condition="attachments"
+          >
+          <h2>Sentrale dokumenter</h2>
+          <ul class="contentlisting nopadding">
+            <li tal:repeat="attachment attachments">
+              <a href="" tal:attributes="class string: icon ${attachment/iconclass}; href attachment/url"
+                         tal:content="attachment/title"
+              >Losningsbeskrivelse</a>
+            </li>
+          </ul>
+        </tal:attachments>
+        
+        <tal:handbooks tal:define="handbooks subjectcontent/handbooks | nothing" tal:condition="handbooks">
+	          <h2>
+	            Veiledere og h&aring;ndb&oslash;ker
+	          </h2>
+	          <ul class="contentlisting nopadding arrow arrow_003365">
+	            <li tal:repeat="handbook handbooks">
+	              <h3>
+	                <a href="" tal:attributes="href handbook/absolute_url" tal:content="handbook/title_or_id"></a>
+	              </h3>             
+	            </li>
+	          </ul>
+        </tal:handbooks>
+        <tal:activities tal:define="activities subjectcontent/activities | nothing" tal:condition="activities">
+          <h2>
+            Aktiviteter
+          </h2>
+          <ul class="contentlisting nopadding arrow arrow_003365">
+            <li tal:repeat="activity activities">
+              <h3>
+                <a href="" tal:attributes="href activity/absolute_url" tal:content="activity/title_or_id"></a>
+              </h3>
+              <!--
+              <p tal:content="string: Dato: ${activity/datestring}"></p>
+              <p tal:content="string: Sted: ${activity/location}">Sted</p>
+              -->              
+            </li>
+          </ul>
+        </tal:activities>
+        
+
+        </div>
+        <tal:faq tal:define="faqs content/faqs | nothing" tal:condition="faqs">
+          <h2 class="decoration decoration_bg_ffffff">Sp&oslash;rsmal og svar</h2>
+          <ol class="contentlisting enhanced">
+            <li tal:repeat="faq faqs/content">            
+              <h3 tal:content="faq/title_or_id">Donec placerat nisl quis odio?</h3>
+              <p tal:content="faq/question">Donec eleifend fringilla velit. Fusce a erat. Proin sollicitudin felis eget nisl. Morbi ut sapien. Duis a ipsum. Nulla ac quam a felis sagittis accumsan. In nibh purus, scelerisque et, aliquet a, gravida sit amet, turpis. Integer aliquam neque a est. Donec in felis.</p>
+              <a href="#" tal:attributes="href faq/absolute_url">Les mer<span class="hidden"> om <tal:title tal:content="faq/title_or_id"></tal:title></span></a>
+            </li>                    
+            <li><a href="#" tal:attributes="href faqs/more_url">Flere sp&oslash;rsm&aring;l og svar om <tal:subjectname tal:replace="content/title"/> (<tal:count tal:replace="faqs/result_length"/>)</a></li>       
+          </ol>
+        </tal:faq>
+      </div>
+    </div>
+  </body>
+</html>

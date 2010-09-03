@@ -1,0 +1,553 @@
+<metal:macro metal:define-macro="master"><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="no" tal:define="isanonymous context/portal_membership/isAnonymousUser;
+                            content options/content | context/content_view.py; 
+                            dummy context/setTemplateCacheHeaders">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="description" content="KS IKT-forum jobber med IKT-utvikling i kommunesektoren.">
+    <tal:title metal:define-slot="titleslot">
+      <title tal:content="content/title">Title</title>
+    </tal:title>
+    <base href="/" tal:attributes="href context/absolute_url">
+    <link rel="stylesheet" type="text/css" href="iktforum_style/grid.css"
+          tal:attributes="href context/iktforum_style/grid.css/absolute_url">
+          
+    <link rel="SHORTCUT ICON" tal:attributes="href string:${context/portal_url}/favicon.ico">
+                    
+    <link rel="stylesheet" type="text/css" href="iktforum_style/content.css"
+          tal:attributes="href context/iktforum_style/content.css/absolute_url">
+
+    <link rel="alternate stylesheet" title="mediumfont" type="text/css" href="iktforum_style/content.css"
+          tal:attributes="href context/iktforum_style/mediumfont.css/absolute_url">
+          
+    <link rel="alternate stylesheet" title="largefont" type="text/css" href="iktforum_style/content.css"
+          tal:attributes="href context/iktforum_style/largefont.css/absolute_url">
+    
+     <!--[if IE 6]><![endif]-->    
+    <link rel="stylesheet" type="text/css"  tal:condition="exists:request/print" tal:attributes="href context/iktforum_style/print.css/absolute_url">
+    
+    <link rel="stylesheet" type="text/css"  tal:condition="exists:request/print" tal:attributes="href context/iktforum_style/print.css/absolute_url">
+   
+     <link rel="home" title="Forsiden" href="" tal:attributes="href string:${context/portal_url}">
+     <link rel="search" title="Søk i KS IKT-Forums nettsider" href="" tal:attributes="href string:${context/searchpage/absolute_url}/site_search">   
+     <link rel="index" title="Temakart for KS IKT-Forum" href="" tal:attributes="href string:${context/portal_url}/sitemap">     
+     <link rel="contents" title="Innhold" href="#contents">
+    
+    
+    <metal:block metal:define-slot="css"></metal:block>    
+    <script type="text/javascript" src="" tal:attributes="src context/iktforum_script/skalertekst.js/absolute_url"></script>
+    <script type="text/javascript" src="" tal:attributes="src context/iktforum_script/iktforum.js/absolute_url"></script>
+    
+    <metal:block metal:define-slot="scripts"></metal:block>
+
+    <metal:block define-slot="syndication_portal">
+        <link rel="alternate" type="application/atom+xml"
+              title="Nyheter fra KSIKT forum" 
+              tal:attributes="href string:${context/index_html/absolute_url}/index.atom" >
+    </metal:block>
+    <metal:block define-slot="syndication_tema">
+        <link rel="alternate" type="application/atom+xml" 
+        tal:attributes="href string:${context/absolute_url}/index.atom;
+                        title string:Nyheter som omhandler temaet '${context/title_or_id}';
+                       "
+        tal:condition="python: (context.Type()=='Tema')">
+    </metal:block>
+    
+  </head>
+  <body>
+  <!--[if IE 6]>
+  <cfif isdefined("track__dt_track_id") is TRUE>
+  <br style="line-height:0px;">
+  </cfif>
+  <![endif]-->
+  <div id="doc2" class="yui-t2">
+    <div id="hd">   
+      <ul id="headermenu" class="inlinemenu" tal:define="header_link_list content/header_link_list">
+        <li><a href="" tal:attributes="href string: ${context/portal_url/index_html/absolute_url}">Til forsiden</a></li>
+        <li><a href="" tal:attributes="href string:${context/portal_url/index_html/absolute_url}/sitemap">Nettstedskart</a></li>
+        <li tal:repeat="link header_link_list">
+          <a href="" tal:attributes="href link/absolute_url" tal:content="link/title_or_id">Om KSIKT-forum</a>
+        </li>                        
+      </ul>
+      
+      <ul id="tools" class="inlinemenu">
+        <li><a href="#" onclick="javascript:return setActiveStyleSheet('normalfont',1)" title="normal fontstørrelse"><img alt="normal fontstørrelse" tal:attributes="src context/iktforum_images/small_text.gif/absolute_url"/></a></li>
+        <li><a href="#" onclick="javascript:return setActiveStyleSheet('mediumfont',1)" title="medium fontstørrelse"><img alt="medium fontstørrelse" tal:attributes="src context/iktforum_images/medium_text.gif/absolute_url"/></a></li>
+        <li><a href="#" onclick="javascript:return setActiveStyleSheet('largefont',1)" title="stor fontstørrelse"><img alt="stor fontstørrelse" tal:attributes="src context/iktforum_images/large_text.gif/absolute_url"/></a></li>
+      </ul>
+      
+      
+      <form id="search" method="get" action="" tal:attributes="action string:${context/index_html/absolute_url}/searchpage/search">       
+        <div>
+          <label for="searchinput" class="hidden">Søk</label>
+          <input tabindex="1" id="searchinput" type="text" name="query:ustring:utf8"/>          
+          <input type="submit" value="Søk"/>
+        </div>
+      </form>
+      
+      <form tal:condition="isanonymous" id="logininfo" method="post" tal:attributes="action string:https://ksikt-forum.no/ksiktforum_login">
+        <div>
+          <label for="username" class="hidden">Brukernavn</label>
+          <input tabindex="2" id="username" class="toggler" type="text" alt="Brukernavn" value="Brukernavn" name="__ac_name"/><a class="arrow arrow_ffffff" href="" tal:attributes="href context/artikler/bli_medlem/absolute_url | nothing">Bli medlem</a><br/>
+          <label for="pwd" class="hidden">Passord</label>          
+          <input tabindex="3" id="pwd" class="toggler" type="password" alt="Passord" value="Passord" name="__ac_password"/><a class="arrow arrow_ffffff" href="" tal:attributes="href context/artikler/2007/9/glemt_passord/absolute_url | nothing">Glemt passord?</a><br/>
+          <input type="hidden" name="__ac_persistent" value="1" checked="checked" />
+          <input type="submit" value="Logg inn"/>
+        </div>        
+      </form>      
+      <tal:loggedininfo tal:condition="not:isanonymous">
+        <div id="loggedInInfo" tal:define="global loggedInInfo content/loggedInInfo"
+                               tal:condition="loggedInInfo"
+        >
+          <p>Logget inn som <br/><tal:name tal:replace="loggedInInfo/title_or_id"></tal:name></p>
+          <ul>
+          <li>
+          <a class="arrow arrow_ffffff" href="" tal:attributes="href loggedInInfo/workspace_url">Til min arbeidsflate</a>
+          </li>
+          <li>
+          <a class="arrow arrow_ffffff" href="" tal:attributes="href string:http://ksikt-forum.no/ksiktforum_logout">Logg ut</a>
+          </li>
+          </ul>
+        </div>
+      </tal:loggedininfo>
+    </div>
+    <div id="bd">
+      <div id="yui-main">
+        <div class="yui-b">
+          <a name="contents"></a>
+          <div class="yui-gc" metal:define-slot="full">        
+            <div id="contentwrapper">
+              
+              <tal:status tal:define="status options/status | request/status | nothing" tal:condition="status">
+                <ul class="error" tal:define="errors status/errors | request/errors | nothing" tal:condition="errors">
+                  <li tal:repeat="error errors" tal:content="error"></li>
+                </ul>
+                <ul class="statusmessage" tal:define="messages status/messages | nothing" tal:condition="messages">
+                  <li tal:repeat="message messages" tal:content="message"></li>
+                </ul>
+              </tal:status>
+            
+              <div class="yui-u first">              
+                <tal:main metal:define-slot="main">
+                  <div tal:condition="options/preview | nothing" style="margin-bottom: 1.2em; margin-top: 1em;">
+		                    <ul>
+		                      <li style="margin-bottom: 1em;">
+		                        <a class="icon close" href=""                    
+		                          tal:attributes="href string:${context/absolute_url}/veiviser?state.serial:int:record=${request/state/serial}&state.step:int:record=${request/state/step}"
+		                        >                    
+		                          Lukk forhåndsvisning og gå tilbake til veiviser
+		                        </a>
+		                      </li> 
+		                      <li>
+		                        <a class="icon confirm" href=""                    
+		                          tal:attributes="href string:${context/absolute_url}/veiviser?state.serial:int:record=${request/state/serial}&state.step:int:record=${request/state/step}&state.publish:bool:record=True"
+		                        >                    
+		                          Publiser
+		                        </a>
+		                      </li>    
+		                    </ul>
+                  </div>
+                
+                 
+                  <tal:contentslot metal:define-slot="contenttype">
+                    <div id="contenttype">
+                      <tal:contenttype tal:replace="content/contenttype"/>, sist endret <tal:last_modified tal:replace="content/modified"/>
+                      <a class="icon edit" href="" tal:define="edit_link content/edit_link" tal:condition="edit_link" tal:attributes="href edit_link">Rediger</a>
+                    </div>
+                  </tal:contentslot>
+                  <h1 tal:content="content/title">Vivamus posuere mauris a tortor.</h1>
+                  
+                           <div id="about" tal:define="authors content/authors | nothing" tal:condition="authors">
+                  
+                    Skrevet av <tal:authors tal:replace="structure authors"></tal:authors>
+                  
+                  </div>
+                  
+                  <div tal:condition="content/ingress" class="ingress clearfix">
+                    <img alt="" src="" tal:define="image content/image" tal:condition="image" tal:attributes="src image/url; alt image/alttext">
+                    
+                    <tal:ingress tal:content="structure content/ingress">Vestibulum diam eros</tal:ingress>
+                    
+                  </div>
+                  
+                  <div id="socialmedia" class="clearfix">                                       
+		     <div class="addthis_toolbox addthis_default_style">		                		     
+		        <a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c808f4f06616ec5" class="addthis_button_compact">Del</a>
+			<span class="addthis_separator">|</span>		                        
+		         <a class="addthis_button_facebook"></a>		                        
+		         <a class="addthis_button_google"></a>		                   
+		         <a class="addthis_button_twitter"></a>
+		                   
+		     </div>
+		                      
+		           <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4c808f4f06616ec5"></script>
+		                      
+                  </div>
+         
+                  
+                  <ul class="structureddata" tal:define="structureddata content/structureddata | nothing"
+                                   tal:condition="structureddata"
+                  >
+                    <li class="clearfix" tal:repeat="data structureddata">               
+                      <h2><tal:title tal:content="data/title"></tal:title>:</h2>
+                      <p tal:content="structure data/value"></p>              
+                    </li>       
+                  </ul>
+                    
+                  
+      <tal:handbook tal:define="handbooks content/handbooks | nothing; articles content/articles | nothing" tal:condition="python: handbooks or articles" tal:omit-tag="">
+		  			<ul class="structureddata" tal:condition="articles">
+		  			  <li class="book" tal:repeat="handbook handbooks" tal:condition="handbooks">
+		  		            <a href="#" tal:content="handbook/title_or_id" tal:attributes="href handbook/absolute_url">Artikkel-lenke</a>																				
+		  			  </li>
+		  			  <li class="book selected" tal:condition="not:handbooks" tal:content="context/title_or_id"> Tittel på håndbok </li>		
+		  			  <div tal:repeat="article articles" tal:omit-tag="">																		
+		                            <li class="chapter" tal:condition="python: context.tm_serial != article['tm_serial']">               
+		                              <a href="#" tal:content="article/title_or_id" tal:attributes="href article/absolute_url">Artikkel-lenke</a>
+		                            </li>       
+		                           <li class="chapter selected" tal:condition="python: context.tm_serial == article['tm_serial']"  tal:content="article/title_or_id" >Navn på artikkel
+		                        </li>
+		  		      </div>       
+		  																				
+		                    </ul>		
+		  
+		</tal:handbook>
+                    
+                  <div class="bodytext" tal:define="text content/text | nothing" tal:condition="text">
+                    <tal:text tal:replace="structure text"/>
+                  </div>
+              
+                  
+                  
+                  
+    
+                </tal:main>
+                
+                <tal:mainbottom metal:define-slot="mainbottom">
+              
+                    <tal:samecategorization tal:define="samecategorization content/samecategorization"
+                                            tal:condition="samecategorization"
+                    >
+                    
+                  
+                    <h2 style="margin-left:0" class="decoration decoration_bg_ffffff bordertop">Sist publisert innen <tal:categorysentence tal:replace="structure content/categorysentence"/></h2>
+                
+                    <ol class="contentlisting summary enhanced nopadding noprint">                      
+                        <li tal:repeat="categorized samecategorization/content">            
+                          <h3>            
+                            <a href="#" tal:attributes="href categorized/absolute_url" tal:content="categorized/title_or_id">Duis dignissim mattis sem. Cras ante. Etiam posuere laoreet magna.</a> 
+                          </h3>
+                          <span class="date">(<tal:date_and_type tal:replace="categorized/type_and_date"></tal:date_and_type>)</span>
+                        </li>        
+                        <li><a class="arrow arrow_003365" href="#" tal:attributes="href samecategorization/more_url">Flere aktuelle saker kategorisert under <tal:categorysentence tal:replace="structure content/categorysentence_nolinks"/> (<tal:count tal:content="samecategorization/result_length"/>)</a></li>
+                      
+                      </ol>
+                    
+                    <!--
+                      <div class="decoration decorationTopBorder">
+                        <h2 class="decoration decoration_bg_f0f3e2">Siste artikler innen <tal:categorysentence tal:replace="structure content/categorysentence"/></h2>                
+                          <ol class="contentlisting summary applypadding enhanced">
+                            <li tal:repeat="categorized samecategorization">
+                              <span class="date" tal:content="string:(${categorized/date})">(04.05.2007)</span>
+                              <h3>                              
+                                <a href="" tal:attributes="href categorized/absolute_url" tal:content="categorized/title_or_id">Duis dignissim mattis sem. Cras ante. Etiam posuere laoreet magna.</a>
+                              </h3>                              
+                            </li>                     
+                            <li><a href="#">Flere artikler (30)</a></li>
+                          </ol>
+                      </div>
+                      -->
+                    </tal:samecategorization>
+                    
+                  </tal:mainbottom>  
+                  <div id="contentfooter">     
+                    <form id="tipafriend" method="post" action="" tal:attributes="action string:${context/absolute_url}/tip_a_friend">
+                      <div>
+                        <label for="tip_from">Tips en venn:</label>
+                        <input class="toggler" tal:attributes="value options/tip_from_email | string:Din epostadresse" id="tip_from" name="tip_from_email:ustring:utf8" type="text" value="Din epostadresse" alt="Din epostadresse">
+                        <input class="toggler" tal:attributes="value options/tip_to_email | string:Mottakers epostadresse" alt="Mottakers epostadresse" name="tip_to_email:ustring:utf8" value="Mottakers epostadresse" type="text">
+                        <input type="submit" value="Send tips">
+                      </div>
+                    </form>
+                    <a href="#" class="icon printer" tal:attributes="href string:${context/absolute_url}/print_view">Utskriftsvennlig versjon av siden</a>
+                  </div>
+              </div>
+              <div class="yui-u">
+                <div metal:define-slot="right" id="rightcolumn">
+                <div id="content" class="borderbox box" tal:condition="content/display">                  
+                  <tal:contacts tal:define="contacts content/contactpersons | nothing" tal:condition="content/contactpersons">
+		                      <h2>Kontakt / ressursr</h2>
+		                      <ul class="contentlisting nopadding arrow arrow_003365">
+		                        <li tal:repeat="topic contacts">
+		                          <a href="" tal:attributes="href topic/absolute_url" 
+		                                     tal:content="topic/title_or_id"></a>
+		                        </li>
+		                      </ul>       
+                  </tal:contacts>
+
+                  <tal:categorized tal:define="categories content/categories"
+                           tal:condition="categories"
+                  >
+                    <h2>Tema</h2>
+                    <ul class="contentlisting nopadding arrow arrow_003365">                    
+                      <li tal:repeat="category categories">
+                        <a href="" tal:content="category/title_or_id"
+                                   tal:attributes="href category/absolute_url"
+                                   
+                        >Arkitektur</a>
+                      </li>
+                    </ul>
+                  </tal:categorized>
+                  <tal:attachments tal:define="attachments content/attachments | nothing"
+                                   tal:condition="attachments"
+                  >
+                    <h2>Vedlegg</h2>
+                    <ul class="contentlisting nopadding">
+                      <li tal:repeat="attachment attachments">
+                        <a href="" tal:attributes="class string: icon ${attachment/iconclass}; href attachment/url"
+                                   tal:content="attachment/title"
+                        >Losningsbeskrivelse</a>
+                      </li>
+                    </ul>
+                  </tal:attachments>
+                  <tal:relevant tal:define="relevant content/relevant" tal:condition="relevant">
+                    <h2>Se også</h2>
+                    <ul class="contentlisting nopadding arrow arrow_003365">
+                      <li tal:repeat="topic relevant">
+                        <a href="" tal:attributes="href topic/absolute_url" 
+                                   tal:content="topic/title_or_id"></a>
+                      </li>
+                    </ul>       
+                  </tal:relevant>                  
+                  <tal:relevant tal:define="relevant content/relevant_faq | nothing" tal:condition="relevant">
+		                      <h2>Spørsmål og svar</h2>
+		                      <ul class="contentlisting nopadding arrow arrow_003365">
+		                        <li tal:repeat="topic relevant">
+		                          <a href="" tal:attributes="href topic/absolute_url" 
+		                                     tal:content="topic/title_or_id"></a>
+		                        </li>
+		                      </ul>       
+                  </tal:relevant>
+																		                  
+                  
+                </div>  
+                <tal:faq tal:define="faqs content/faqs | nothing" tal:condition="faqs">
+		          <h2 class="decoration decoration_bg_ffffff">Sp&oslash;rsmal og svar</h2>
+		          <ol class="contentlisting enhanced">
+		            <li tal:repeat="faq faqs/content">            
+		              <h3 tal:content="faq/title_or_id">Donec placerat nisl quis odio?</h3>
+		              <p tal:content="faq/question">Donec eleifend fringilla velit. Fusce a erat. Proin sollicitudin felis eget nisl. Morbi ut sapien. Duis a ipsum. Nulla ac quam a felis sagittis accumsan. In nibh purus, scelerisque et, aliquet a, gravida sit amet, turpis. Integer aliquam neque a est. Donec in felis.</p>
+		              <a href="#" tal:attributes="href faq/absolute_url">Les mer</a><span class="hidden"> om <tal:title tal:content="faq/title_or_id"></tal:title></span>
+		            </li>                    
+		            <li><a href="#" tal:attributes="href faqs/more_url">Flere sp&oslash;rsm&aring;l og svar om <tal:subjectname tal:replace="content/title"/> (<tal:count tal:replace="faqs/result_length"/>)</a></li>       
+		          </ol>
+                </tal:faq>
+                
+                  
+                  <tal:comment tal:define="comment context/comment.py; comments_allowed content/comments_allowed"
+                               tal:condition="comments_allowed"
+                  >
+                                      <tal:commentlisting tal:condition="comment/comments">
+                        <h2>Kommentarer (<tal:count tal:replace="comment/commentcount"></tal:count>)</h2>
+                        <form id="comment_adminform" action="deleteComments"
+                          tal:define="canDeleteComments content/isEditor"
+                          tal:attributes="action string: ${context/absolute_url}/deleteComments" 
+                          tal:omit-tag="not:canDeleteComments"
+                          method="POST">
+                          <ol class="commentlisting">        
+                            <li tal:repeat="comment2 comment/comments">
+                              
+                          
+                              
+                              <h3 tal:content="comment2/heading" >sample comment header</h3>
+                              
+                         
+                              <p class="about">
+                              <span class="date" tal:content="string: (${comment2/created})">(18.05.07 08:55)</span><span tal:replace="comment2/name">John Doe</span>
+                              </p>
+                              <p tal:content="comment2/comment" >sample comment body</p>            
+                              <div class="options" tal:condition="canDeleteComments">
+                                <input type="checkbox" title="Marker denne kommentaren for å slette den."
+                                   name="deletecomment:int:list"
+                                   tal:attributes="value comment2/tm_serial"
+                                   tal:condition="canDeleteComments"
+                                   >
+                                   Merk for å slette
+                              </div>
+                            </li>         
+                          </ol>
+                        <div>
+                          <input tal:condition="canDeleteComments" type="submit" value="Slett merkede kommentarer">
+                        </div>
+                      </form>
+                    </tal:commentlisting>
+                  
+                  
+                    
+                    <form id="commentform" tal:condition="not:exists:options/commentWasAddedOk | not:options/commentWasAddedOk" 
+                        method="POST" action="comment" tal:attributes="action string:${context/absolute_url}/addComment">
+                      <h2 tal:condition="not:exists:options/formErrorMsg" >Legg igjen en kommentar</h2>                                  
+                      <div>
+                        <tal:name tal:repeat="fieldinfo comment/honeypots/fieldinfolists/name">
+                            <label tal:attributes="for   fieldinfo/name;
+                                                   class fieldinfo/labelclass | nothing" 
+                                                   >
+                                                   <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Navn</tal:dummy> 
+                                                   <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                             <em>*</em></label>
+                            
+                            <input title="Skriv inn ditt navn her" 
+                                   tal:attributes="value python:   ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']])
+                                                                 or ( not fieldinfo['ishoneypot'] and comment['membersName'] ) 
+                                                                 or '';
+                                                   name string:${fieldinfo/name}:ustring:utf8;
+                                                   id fieldinfo/name;
+                                                   class fieldinfo/class"
+                                   size="35" type="text"  
+                                  />
+                        </tal:name>
+                        
+                        <tal:email tal:repeat="fieldinfo comment/honeypots/fieldinfolists/email">
+                            <label tal:attributes="for   fieldinfo/name;
+                                                   class fieldinfo/labelclass | nothing" 
+                                                   >
+                                                   <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Epostadresse</tal:dummy> 
+                                                   <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                                   <em>*</em></label> 
+                            
+                            <input title="Skriv inn din epostadresse her" 
+                                   tal:attributes="value python:    ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                                 or ( not fieldinfo['ishoneypot'] and comment['membersEmail'] ) 
+                                                                 or '';
+                                                   name  string:${fieldinfo/name}:ustring:utf8;
+                                                   id fieldinfo/name;
+                                                   class fieldinfo/class"
+                                   size="35" type="text"  
+                                  />
+                        </tal:email>
+                
+              
+                     
+                        <tal:heading tal:repeat="fieldinfo comment/honeypots/fieldinfolists/heading">
+                            <label tal:attributes="for   fieldinfo/name;
+                                                   class fieldinfo/labelclass | nothing" 
+                                                   > 
+                                                   <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Overskrift</tal:dummy> 
+                                                   <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                                   <em>*</em></label>
+                            
+                            <input title="Skriv overskriften på din kommentar her" 
+                                   tal:attributes="value python: ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) or '';
+                                                   name string:${fieldinfo/name}:ustring:utf8;
+                                                   id fieldinfo/name;
+                                                   class fieldinfo/class;
+                                                   "
+                                   size="35" type="text" 
+                                  />
+                        </tal:heading>
+              
+                        <tal:comment tal:repeat="fieldinfo comment/honeypots/fieldinfolists/comment">
+                            <label tal:attributes="for   fieldinfo/name;
+                                                   class fieldinfo/labelclass | nothing" 
+                                                   >
+                                                   <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Kommentar</tal:dummy> 
+                                                   <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                                   <em>*</em></label>
+                            
+                            <textarea title="Skriv din kommentar her" 
+                                   tal:attributes="name  string:${fieldinfo/name}:ustring:utf8;
+                                                   id fieldinfo/name;
+                                                   class fieldinfo/class;
+                                                   "
+                                   tal:content="python: ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) or ''" 
+                                   rows="3" cols="26">
+                            </textarea>          
+                        </tal:comment>          
+                       
+                        <input name="timestamp" type="hidden"   tal:attributes="name comment/honeypots/fieldname2hashedfieldname/timestamp;
+                                                                    value comment/timestamp"  />
+                                                                    
+                        <input name="entryid" type="hidden"     tal:attributes="name comment/honeypots/fieldname2hashedfieldname/entryid;
+                                                                    value comment/entryid"    />
+                                                                    
+                        <input name="ipaddress" type="hidden"   tal:attributes="name comment/honeypots/fieldname2hashedfieldname/ipaddress;
+                                                                    value comment/ipaddress"  />                           
+                        <input name="spinnervalue" type="hidden" tal:attributes="value comment/honeypots/spinnervalue" />
+                        
+                        
+                        <div class="buttonHolder">
+                          <button type="submit" class="submitButton">Legg til kommentar</button>
+                        </div>
+                      </div>
+                    </form>
+                    
+
+                  </tal:comment>
+               
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="yui-b">   
+        <a name="navigation"></a>
+        <div id="leftcolumn" metal:define-slot="left">   
+         
+         <ul class="buttons"  
+            tal:define="links content/leftcolumn_top_list"
+            tal:condition="links"
+            >
+         <li tal:repeat="link links">
+          <a href="" tal:attributes="href link/absolute_url"
+                     tal:content="link/title_or_id"                                          
+         >KS.no</a></li>         
+        </ul>
+          
+          
+        <div class="borderbox boxbackground" tal:define="mainsubjects content/mainsubjects"
+                                             tal:condition="mainsubjects"
+        >
+          <h2 class="decoration decoration_bg_e0e6b6">Hovedtema:</h2>
+          <ol class="contentlisting">
+            <li tal:repeat="subject mainsubjects">
+              <h3>
+                <a href="" tal:content="subject/title_or_id"
+                           tal:attributes="href subject/absolute_url"
+                >Kommunale tjenester på nett</a>              
+              </h3>                    
+            </li>    
+          </ol>
+      </div>
+      
+      <h2 style="margin-left: 0em;" class="decoration decoration_bg_f0f3e2">Lenker</h2>
+      <ul class="buttons bordertop" 
+        tal:define="links content/leftcolumn_link_list"
+        tal:condition="links"
+        >
+         <li tal:repeat="link links">
+          <a href="" tal:attributes="href link/absolute_url"
+                     tal:content="link/title_or_id"                                          
+         >KS.no</a></li>         
+       </ul>
+          
+        </div>  
+      </div>
+    </div>
+    <div id="ft">
+      <tal:footer metal:define-slot="footer">
+        <p class="footertext">
+          &copy; KS - kommunesektorens interesse- og arbeidsgiverorganisasjon <a href="#">Alt innhold er beskyttet under lov om opphavsrett.</a> Ved bruk av materiale skal kilde oppgis. Internettredaktør: <a href="http://ksikt-forum.no/personer/anna.holm.vaagsland">Anna Holm Vågsland</a>
+        </p>
+
+      </tal:footer>	
+    </div>
+  </div>
+    <script src="https://ssl.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-1397234-1";
+      urchinTracker();
+    </script>
+  </body>
+</html>
+</metal:macro>

@@ -1,0 +1,179 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="contenttype" metal:fill-slot="contenttype">
+        Personlig arbeidsflate
+    </div>
+    
+    <div metal:fill-slot="main" tal:define="ws_content context/workspace_view.py | nothing" tal:condition="ws_content">
+          
+      <h2 class="decoration decoration_bg_ffffff" style="margin: 0em 0em 2.2em 0em;">Min arbeidsflate</h2>
+      <div id="personaltools" class="">
+        <a href="" tal:attributes="href string:${context/system/contenttype/article/absolute_url}/veiviser" class="">Opprett artikkel</a>
+        <a href="" tal:attributes="href string:${context/system/contenttype/activity/absolute_url}/veiviser" class="">Opprett aktivitet</a>
+        <a href="" tal:attributes="href string:${context/absolute_url}/memberInviteForm" class="">Inviter ny bruker</a>        
+      </div>
+      
+   
+      <div class="clearfix">        
+        <div class="left half">
+         <h2 class="decoration decoration_bg_ffffff" style="margin-left: 0em;">Mine arbeidsrom</h2>
+         <ol tal:define="workareas ws_content/workareas | nothing" tal:condition="workareas" class="contentlisting nopadding arrow arrow_003365 enhanced" style="width: 90%">
+          <li tal:repeat="workarea workareas">          
+            <a href="#" tal:content="workarea/title_or_id" tal:attributes="href workarea/absolute_url">abc</a>
+          </li>
+        </ol>
+        </div>
+        <div class="left half">
+          <h2 class="decoration decoration_bg_ffffff" style="margin-left:0em;">Be om arbeidsrom</h2>    
+          <form method="post" action="" tal:attributes="action string:${context/absolute_url}/workarea_application">
+            <p>
+              <label for="workarea_title">Tittel på arbeidsrommet <em>*</em></label>
+              <input id="workarea_title" name="workarea_title:ustring:utf8"/>
+              <label for="workarea_description">Beskrivelse av arbeidsrommet</label>
+              <textarea cols="4" rows="4" id="workarea_description" name="workarea_description:ustring:utf8"></textarea>
+              <input value="Send søknad" class="button" type="submit">
+            </p>
+          </form>
+        </div>
+      </div>
+   
+      
+      <tal:mycontent tal:condition="ws_content">
+      <form id="manage_contentform" method="POST" tal:attributes="action string:${context/absolute_url}/workspaceHandlers">     
+        <tal:drafts tal:define="drafts ws_content/drafts|nothing" tal:condition="drafts">
+          <h2 class="decoration decoration_bg_ffffff" style="margin: 0em 0em 2.2em 0em;">Mine kladder</h2>
+          <p>
+            En kladd utgjør påbegynt innhold der og som enda ikke er publisert gjennom veiviseren. En kladd vil kun være synlig for deg.
+          </p>
+          <table class="contentlisting">
+                <thead>
+                  <tr>
+                    <th style="width:0em;"></th>
+                    <th style="width:auto;">Tittel</th>   
+                    <th style="width:1.2em;"></th>
+                  </tr>
+                </thead>
+                <tbody>            
+                  <tr tal:repeat="draft drafts" tal:attributes="class python:test(repeat['draft'].even(), 'even', '')">
+                    <td style="width:0.1em;"><input class="checkbox" tal:attributes="value draft/serial" name="draft_serial:int:list" type="checkbox"/></td>
+                    <td><a href="" tal:content="draft/title" tal:attributes="href draft/edit_url"></a></td>
+                    <td><a class="icon edit" href="" title="Editer" tal:attributes="href draft/edit_url"></a>
+                  </tr>
+                </tbody>
+              </table>
+              <div>
+              <input type="submit" name="deleteDrafts:action" value="Slett merkede kladder"/>
+              </div>
+            </tal:drafts>
+          
+      
+      
+        <h2 class="decoration decoration_bg_ffffff bordertop" style="margin: 0em 0em 2.2em 0em;">Mitt innhold</h2>
+        <p>
+          Mitt innhold lister ut alt innhold du har publisert i portalen. Du har mulighet for å trekke publisert innhold tilbake slik at det ikke er tilgjengelig for anonyme besøkende av portalen.
+        </p>
+         
+          <div>
+            <table class="contentlisting" tal:define="works ws_content/works | nothing" tal:condition="works">
+              <thead>
+                <tr>
+                  <th style="width:0em;"></th>
+                  <th>Tittel</th>
+                  <th>Type</th>
+                  <th style="width: 10em;">Sist endret</th>  
+                  <th>Status</th>  
+                  <th style="width:1.2em;"></th>
+                </tr>
+              </thead>
+              <tbody>            
+                <tr tal:repeat="work works"
+                    tal:attributes="class python:test(repeat['work'].even(), 'even', '')"
+                    >
+                  <td style="width:0em;"><input type="checkbox" class="checkbox" name="selectedContent:list:int" title="Marker for å utføre en handling"
+                             tal:attributes="value work/tm_serial"/></td>
+                  <td><a tal:attributes="href string:${work/url}" tal:content="work/title">Kravspesifikasjon</a></td>
+                  <td tal:content="work/contenttype">Artikkel</td>
+                  <td tal:content="python:DateTime(work['modifiedtime']).strftime('%d.%m.%Y %H:%M')">06.05.2007 16:30</td> 
+                  <td tal:content="work/review_state"
+                      tal:attributes="style python:test(work['review_state'] == 'published', 'color:green;;','color:red;;')"
+                    >status</td> 
+                  <td><a class="icon edit" href="" title="Editer" tal:attributes="href string:${work/url}/veiviser">&nbsp;</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <input type="hidden" name="person:int" tal:attributes="value context/tm_serial"/>
+            <input type="submit" name="publishContent:action" value="Publiser merkede" />
+            <input type="submit" name="retractContent:action" value="Trekk tilbake merkede" />
+            <input type="submit" name="deleteContent:action"  value="Slett merkede" />
+          </div>
+        </form>
+      </tal:mycontent>
+    </div>
+    
+    <div metal:fill-slot="right" id="rightcolumn" tal:define="ws_content context/workspace_view.py" tal:condition="ws_content">      
+      <h2 class="decoration decoration_bg_ffffff bordertop" style="margin: 3.4em 0em 1.2em 0em;">Min profil</h2>   
+      <p>I min profil vedlikeholder du personlig informasjon om deg selv.  Det er viktig at denne informasjonen hele tiden er oppdatert.</p>
+
+     
+      <form id="profileedit" action="" method="post" tal:attributes="action string:${context/absolute_url}/store_profile" enctype="multipart/form-data">
+        <div>
+          <tal:image tal:define="image content/image" tal:condition="image">
+            <img alt="" class="marginbottom" src="" tal:attributes="src image/url; alt image/alttext">        
+            <input type="checkbox" style="display:inline;margin:0;" name="profile.removeimage:record"/> Merk her for å fjerne bilde
+            <br/>
+            <br/>
+          </tal:image>
+          <div class="toggler" title="Last opp portrettbilde">
+            <label for="portraitimage">Last opp portrettbilde</label>
+            <input id="portraitimage" type="file" name="profile.image:record"/>
+            <input type="submit" value="Oppdater bilde"/>
+          </div>       
+          <div class="toggler" title="Endre passord">
+            <label for="new_password">Nytt passord</label>
+            <input id="new_password" value="passord" type="password" name="profile.new_password:ustring:utf8:record"/>
+            <label for="confirm_password">Bekreft nytt passord</label>          
+            <input id="confirm_password" type="password" value="passord" name="profile.confirm_password:ustring:utf8:record"/>
+            <input type="submit" value="Oppdater passord"/>
+          </div>
+          <label for="name">Navn:</label>
+          <input type=text id="name" name="profile.name:ustring:utf8:record" tal:attributes="value ws_content/profile/title"/>
+          <br/>
+          <label for="work">Stilling:</label>
+          <input type=text id="work" name="profile.work:ustring:utf8:record" tal:attributes="value ws_content/profile/work"/>
+          <br/>
+          <label for="department">Avdeling:</label>
+          <input type=text id="department" name="profile.department:ustring:utf8:record" tal:attributes="value ws_content/profile/department"/>
+          <br/>
+          <label for="workplace">Arbeidssted:</label>
+          <input type=text id="workplace" name="profile.workplace:ustring:utf8:record" tal:attributes="value ws_content/profile/workplace"/>
+          <br/>
+          <label for="visitaddress">Besøksadresse:</label>
+          <input type=text id="visitaddress" name="profile.visitaddress:ustring:utf8:record" tal:attributes="value ws_content/profile/visitaddress"/>
+          <br/>
+          <label for="phone">Fasttelefon:</label>
+          <input type=text id="phone" name="profile.phone:ustring:utf8:record" tal:attributes="value ws_content/profile/phone"/>
+          <br/>
+          <label for="mobilephone">Mobiltelefon:</label>
+          <input type=text id="mobilephone" name="profile.mobilephone:ustring:utf8:record" tal:attributes="value ws_content/profile/mobilephone"/>
+          <br/>
+          <label for="email">Epost:</label>
+          <input type=text id="email" name="profile.email:ustring:utf8:record" tal:attributes="value ws_content/profile/email"/>
+          <br/>
+          <label for="workareas">Arbeidsområder:</label>
+          <input type=text id="workareas" name="profile.workareas:ustring:utf8:record" tal:attributes="value ws_content/profile/workareas"/>
+          <br/>
+          <label for="qualifications">Skriv inn dine kompetanseområder i stikkordsform. Eksempel kan være nettverksdrift, portal, åpen kildekode</label>
+          <textarea id="qualifications" name="profile.qualifications:ustring:utf8:record" tal:content="ws_content/profile/qualifications"
+                    rows="3" cols="26"></textarea>        
+          <input type="submit" value="Oppdater profil"/>   
+        </div>
+           
+      </form>
+    </div>
+    
+  </body>
+</html>

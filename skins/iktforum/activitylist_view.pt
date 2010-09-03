@@ -1,0 +1,92 @@
+<html metal:use-macro="context/content_view/macros/master">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <tal:title metal:fill-slot="titleslot">
+      <title>Aktiviteter og Seminarer</title>
+    </tal:title>
+  </head>
+  <body> 
+    <tal:main metal:fill-slot="main"
+            tal:define="content context/activitylist_view.py;
+                   activities python: test(request.get('past',False), content.get('past_activities',[]), content.get('future_activities',[]));                   
+                   "
+       > 
+
+  
+      <h1>Aktiviteter og seminarer </h1>
+        
+            <ol id="pager" style="margin-left:0em;" tal:define="activitylisturl context/portal/seksjoner/kalender/absolute_url">
+            	<li>
+	      	<a tal:attributes="href activitylisturl;
+	      		class python:test(request.get('past', False),'','selected');         
+	      	" href="">Kommende seminarer og aktiviteter</a>
+	          
+      	</li>
+      	<li>
+      	<a 
+	             tal:attributes="href python:activitylisturl + '?past=True';
+	             	class python:test(request.get('past', False),'selected','');              
+	             "
+	             href="previous_url">Avsluttede seminarer og aktiviteter</a>
+          
+      	</li>
+
+      	</ol>
+      <ol class="contentlisting enhanced nopadding">
+        <li tal:repeat="activitybrain activities">
+          
+          <tal:defines tal:define="activity activitybrain/getObject">
+            
+              
+             <h2>
+              <a  tal:content="string:${activity/title_or_id}" tal:attributes="href activity/absolute_url;"> 
+                
+              </a>
+             </h2>
+             
+              
+              <div style="margin-bottom: 1em;" tal:condition="activity/occurrence/ingress | nothing" class="clearfix">
+                <img alt="" src="" tal:define="image content/image | nothing" tal:condition="image" tal:attributes="src image/url; alt image/alttext">
+                
+                <tal:ingress tal:content="structure activity/occurrence/ingress">Ingressen havner her</tal:ingress>
+              </div>
+              
+                    <tal:structureddata tal:define="structureddata activity/structureddata | nothing"
+	                               tal:condition="structureddata">
+	                 <tal:rep tal:repeat="data structureddata">
+	                  <p tal:condition="python:data['title'].lower() != 'epost'">  
+	                    <tal:title tal:content="data/title" /> : <tal:value tal:content="structure data/value" />
+	                  </p>
+	                </tal:rep>
+	                
+              </tal:structureddata>
+          </tal:defines>   
+        </li>
+      </ol>
+      
+
+      <ol id="pager" style="margin-left:0em;" tal:define="activitylisturl context/portal/seksjoner/kalender/absolute_url">
+            	<li>
+	      	<a tal:attributes="href activitylisturl;
+	      		class python:test(request.get('past', False),'','selected');         
+	      	" href="">Kommende seminarer og aktiviteter</a>
+	          
+      	</li>
+      	<li>
+      	<a 
+	             tal:attributes="href python:activitylisturl + '?past=True';
+	             	class python:test(request.get('past', False),'selected','');              
+	             "
+	             href="previous_url">Avsluttede seminarer og aktiviteter</a>
+          
+      	</li>
+
+      	</ol>
+      
+   
+      
+      
+          </tal:main>
+    
+  </body>
+</html>

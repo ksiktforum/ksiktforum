@@ -1,0 +1,44 @@
+
+<tal:node tal:define="widget options/widget">
+  <div class="node">
+    <tal:header tal:replace="structure widget/title"/>  
+    <div tal:condition="widget/ingress" tal:content="structure widget/ingress"></div>
+    
+    <table class="file_table enhanced" class="" tal:define="connectedFiles widget/connectedFiles | nothing;" tal:condition="connectedFiles">
+    <thead>
+      <th>File title</th>
+      <!--
+      <th>Filename</th>
+      -->
+    </thead>
+    <tbody>
+      <tr tal:repeat="connectedFile connectedFiles | nothing" tal:attributes="class python: test(repeat['connectedFile'].odd(),'odd','' )">
+        <td><a class="trigger" tal:content="connectedFile/title" tal:attributes="href connectedFile/url; class string:trigger icon ${connectedFile/iconclass}" href=""></a></td>
+        <!--
+        <td tal:content="connectedFile/filetitle">Bouvet.xls</td>
+        -->         
+      </tr>
+      
+    </tbody>
+    
+  </table>
+    
+    <form method="post" tal:attributes="action context/absolute_url" tal:condition="widget/isEditor">    
+      <div class="buttons clearfix">      
+        <a href="" class="edit" tal:attributes="href string: ${context/absolute_url}?action=edit&serial:int=${widget/serial}#node_${widget/serial}">Edit node</a>
+        <a href="" class="add" tal:attributes="href string: ${context/absolute_url}?action=add&serial:int=${widget/serial}#node_add"><span>Add node</span></a>    
+        <button tal:condition="widget/outdent | nothing" tal:attributes="disabled not:widget/outdent | nothing; class python:'arrow_left '+test(widget['outdent'], '', 'disabled')" class="arrow_left" type="submit" name="node_outdent.py:method"><span>Outdent</span></button>
+        <button tal:condition="widget/up | nothing" tal:attributes="disabled not:widget/up | nothing; class python:'arrow_up '+test(widget['up'], '', 'disabled')" class="arrow_up" type="submit" name="node_up.py:method"><span>Up</span></button>
+        <button tal:condition="not:widget/down | nothing" tal:attributes="disabled widget/down | nothing; class python:'arrow_down '+test(widget['down'], 'disabled', '')" class="arrow_down" type="submit" name="node_down.py:method"><span>Down</span></button>
+        <button tal:condition="widget/indent | nothing" tal:attributes="disabled not:widget/indent | nothing; class python:'arrow_right '+test(widget['indent'], '', 'disabled')" class="arrow_right" type="submit" name="node_indent.py:method"><span>Indent</span></button>
+        <button class="delete" type="submit" name="node_remove.py:method"><span>Remove node</span></button>
+        <input type="hidden" name="serial:int" tal:attributes="value widget/serial">
+      </div>
+      <!--
+        <div tal:content="widget/debug"></div>
+      -->    
+      </form>
+  </div>
+</tal:node>
+
+

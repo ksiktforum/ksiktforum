@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Begrep</title>
+</head>
+<body>
+  <div>
+    <tal:main metal:fill-slot="main" tal:define="concepts context/concepts_view.py">
+
+      <tal:concepts tal:condition="concepts/concepts"
+          tal:define="canEditConcepts python:user and user.has_role('Mandager')"
+          >
+        <h1>IKT-begrep</h1>
+          <dl class="contentlisting">
+            <tal:concept tal:repeat="concept concepts/concepts"
+                  tal:attributes="class python:test(repeat['concept'].even(), 'even', '')"
+                >
+              <dt tal:content="concept/title">begreptittel></dt>
+              <dd> 
+                <div class="ingress" tal:replace="structure concept/ingress" />
+                <a class="icon edit" href="" title="Editer" 
+                   tal:condition="canEditConcepts" 
+                   tal:attributes="href string:${concept/url}/edit">Editer</a>
+              </dd> 
+            </tal:concept>  
+        </dl>
+      </tal:concepts>
+    </tal:main>
+    <tal:main metal:fill-slot="right" tal:define="concepts context/concepts_view.py"/>
+  </div>
+</body>
+</html>
+
+

@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head tal:define="dummy python:request.RESPONSE.setHeader('Content-Type','application/vnd.ms-excel')" >
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+
+  <body>
+    <table style="border-collapse: collapse;" border="0" width="100%"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      
+      tal:define="seminar context/seminar_view.py;
+                  columns seminar/attendeelistColumns
+                  ">
+      <thead>
+        <tr style="text-align:left; background-color: #e0e0e0;">
+          <th tal:repeat="column columns"
+              tal:content="column/title">
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="attendee seminar/attendeelist">
+          <td tal:repeat="column columns"
+              tal:content="python:attendee[column['fieldname']]"></td>
+        </tr>
+      </tbody>
+    </table>
+  
+  </body>
+</html>

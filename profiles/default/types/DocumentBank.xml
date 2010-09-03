@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<object name="DocumentBank" meta_type="Factory-based Type Information"
+   i18n:domain="ksiktforum" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title" i18n:translate="">DocumentBank</property>
+ <property name="description"
+    i18n:translate="">DocumentBank is a specialized topic to arrange documents hierarchically.</property>
+ <property name="content_icon">topic_icon.gif</property>
+ <property name="content_meta_type">DocumentBank</property>
+ <property name="product"></property>
+ <property name="factory">ksiktforum.documentbank</property>
+ <property name="immediate_view">topic_edit_form</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+  <element value="Topic"/>
+ </property>
+ <property name="allow_discussion">False</property>
+ <alias from="(Default)" to="topic_view"/>
+ <alias from="index.html" to="topic_view"/>
+ <alias from="view" to="topic_view"/>
+ <alias from="edit" to="topic_edit_form"/>
+ <alias from="ztmview" to="topic_view"/>
+ <alias from="ztmedit" to="topic_edit_form"/>
+ <action title="View" action_id="view" category="object" condition_expr=""
+    url_expr="string:${object_url}" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    url_expr="string:${object_url}/topic_edit_form" visible="True">
+  <permission value="Change portal topics"/>
+ </action>
+</object>

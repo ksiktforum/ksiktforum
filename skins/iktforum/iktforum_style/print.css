@@ -1,0 +1,54 @@
+body{
+  background-color: #FFF;
+  margin:0;
+  padding:0;  
+}
+#hd{  
+  display: none;  
+}
+#leftcolumn{
+  display: none;
+}
+#contentfooter{
+  display: none;
+}
+#ft{
+  display: none;
+}
+.decoration{
+  display: none;
+}
+#contenttype{
+  display: none;
+}
+
+.yui-gc{
+  border: none;  
+}
+#doc2{
+  margin: 0em;
+}
+.yui-t2 #yui-main .yui-b{
+  margin:0em;
+}
+.yui-gc div.first{
+float: none;
+}
+.yui-gc .yui-u{
+float: none;
+}
+#yui-main{
+  border: none;
+  margin: 0em;  
+  float: none;
+}
+#signupform{
+  display: none;
+}
+#rightcolumn{
+  display: none;
+}
+.noprint{
+  display: none;
+}
+

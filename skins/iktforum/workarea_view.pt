@@ -1,0 +1,233 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title>Default frontpage</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <tal:javascript metal:fill-slot="scripts">
+      
+    </tal:javascript>
+  </head>
+  <body> 
+    <div metal:fill-slot="main" tal:define="wa_content context/workarea_view.py">
+      <a  class="arrow arrow_003365" style="font-size: 1.2em;" href="" tal:attributes="href loggedInInfo/workspace_url">Tilbake til min arbeidsflate</a>
+      <h1 tal:content="content/title"></h1>
+      
+      <div class="ingress" tal:content="structure content/ingress"></div>
+      <tal:latestchanges tal:define="latestchanges wa_content/latestchanges|nothing"
+                         tal:condition="latestchanges"
+      >        
+        <h2 class="decoration decoration_bg_ffffff" style="margin-left:0em;">Siste endringer</h2>
+        <ol class="contentlisting summary enhanced nopadding">
+          <li tal:repeat="change latestchanges">           
+            <h3>            
+              <a href="#" tal:attributes="href change/absolute_url"><tal:title tal:replace="change/title_or_id"/> <span class="date">(<tal:type_and_date tal:replace="change/type_and_date"></tal:type_and_date>)</span></a>
+            </h3>            
+          </li>       
+        </ol>
+      </tal:latestchanges>
+      
+      <form class="upload" action="" tal:attributes="action context/absolute_url" method="POST" enctype="multipart/form-data">
+        <tal:attachments>
+          <h2 class="decoration decoration_bg_ffffff" style="margin-left: 0em;">Filer</h2>
+          
+          <table class="contentlisting" tal:condition="wa_content/files">
+            <thead>
+              <tr>
+                <th style="width:0em;"></th>
+                <th>Tittel</th>
+                <th>Opprettet av</th>
+                <th style="width: 10em;">Sist endret</th>
+              </tr>
+            </thead>
+            <tbody>            
+              <tr tal:repeat="file wa_content/files | nothing" tal:attributes="class python:test(repeat['file'].even(), 'even', '')">
+                <td style="width:0em;"><input type="checkbox" class="checkbox" tal:attributes="value file/tm_serial" name="tm_serial:int:list" title="Marker her hvis du ønsker at filen skal slettes"/></td>
+                <td><a href="#" tal:attributes="class string:icon ${file/iconclass};href file/absolute_url" tal:content="file/title_or_id">Kravspesifikasjon</a></td>
+                <td><a href="#" tal:content="file/Creator">Svein Arild Myrer</a></td>
+                <td tal:content="file/modified">06.05.2007 16:30</td>           
+              </tr>
+            </tbody>
+          </table>  
+          <div class="toggler" title="Last opp fil">
+	            <div class="box box_bg_ecf0d5 marginbottom">
+	              <h3>Last opp fil</h3>
+	              <div>
+	                <label for="filetitle" style="display:block;">Tittel</label>
+	                <input id="filetitle" style="width:auto;" type="text" name="title:ustring:utf8"/>
+	                <label class="hidden" for="file">Last opp fil</label>
+	                <input id="file" name="file" type="file" class="file"/><input class="button" name="workarea_upload_file:method" type="submit" value="Last opp"/>          
+	                <label for="overwrite">Overskriv hvis filen finnes fra før</label> <input name="overwrite" style="display:inline;" class="checkbox" id="overwrite" type="checkbox">
+	                <p>For å overskrive eksisterende fil må filnavnene være identiske.</p>
+	              </div>
+	            </div>
+        </div>
+          
+          <div tal:condition="wa_content/files">
+            <input class="button" type="submit" name="workarea_delete_file:method" value="Slett valgte filer"/>
+          </div>
+        </tal:attachments>
+        
+
+      </form>
+      <h2 class="decoration decoration_bg_ffffff" style="margin-left: 0em;">Diskusjonsforum</h2>
+      
+             <tal:discussions tal:condition="wa_content/threads"
+                tal:define="canRemoveDiscussionThreads python:user and user.has_role('Manager')">              
+              <form method="POST" tal:attributes="action string:${context/absolute_url}/deleteDiscussionThreads"
+                    tal:omit-tag="not:canRemoveDiscussionThreads">      
+                <div>
+                  <table class="contentlisting">
+                    <thead>
+                      <tr>
+                        <th tal:condition="canRemoveDiscussionThreads"></th>
+                        <th>Tittel</th>
+                        <th>Forfatter</th>
+                        <th>Antall svar</th>  
+                        <th>Siste svar</th> 
+                        
+                      </tr>
+                    </thead>
+                    <tbody>            
+                      <tr tal:repeat="thread wa_content/threads"
+                          tal:attributes="class python:test(repeat['thread'].even(), 'even', '')"
+                          >
+                        <td tal:condition="canRemoveDiscussionThreads"><input type="checkbox" class="checkbox" name="selectedDiscussionThreads:list:int" 
+                                    title="Marker for å slette en tråd"
+                                   tal:attributes="value thread/tm_serial"/></td>
+                        <td><a tal:attributes="href string:${thread/url}" 
+                               tal:content="thread/heading"
+                               title="Klikk for å se på innleggene i diskusjonstråden.">min først posting</a></td>
+                        <td>
+                          <a tal:attributes="href thread/author/url | nothing"
+                            tal:content="thread/author/name">Jon Jensen</a>
+                            </td>
+                        <td> <a tal:attributes="href string:${thread/url}/discussion_view" 
+                                tal:content="thread/followupcount"
+                                title="Klikk for å se på innleggene i diskusjonstråden.">42</a></td>
+                        
+                        
+                        <td>
+                          <tal:lastfollowup tal:condition="thread/followupcount"> 
+                            <a tal:attributes="href string:${thread/url}/discussion_view" 
+                               tal:content="python:thread['lastfollowup']['createdtime'].strftime('%d.%m.%y %H:%M')"
+                               title="Klikk for å se på innleggene i diskusjonstråden." />
+                            <a tal:attributes="href thread/lastfollowup/author/url | nothing" 
+                               tal:content="thread/lastfollowup/author/name | nothing">Jon Jensen</a>
+                          </tal:lastfollowup>
+                          <tal:nofollowups tal:condition="not:thread/followupcount">
+                            <a tal:attributes="href string:${thread/url}/discussion_view" 
+                               title="Klikk for å skrive ett innlegg i diskusjonstråden">Ingen svar</a>
+                          </tal:nofollowups>
+                        
+                        </td> 
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button type="submit" style="margin-bottom:1.2em;" tal:condition="canRemoveDiscussionThreads">Slett merkede</button>
+                </div>
+              </form>
+      </tal:discussions>
+      
+     <form id="discussion" method="POST" action="addDiscussionThread" tal:attributes="action string:${context/absolute_url}/addDiscussionThread">        
+        <div class="toggler" title="Opprett en ny diskusjonstråd">
+        <div class="box box_bg_ecf0d5">          
+          <h3>Opprett en ny diskusjons-tråd</h3>
+        
+          <label for="createthread.heading" >Tittel <em>*</em></label>          
+          <input title="Skriv inn en overskrift på diskusjonstråden." 
+                 tal:attributes="value options/createthread/heading | nothing"
+                 name="createthread.heading:ustring:utf8:record" 
+                 id="createthread.heading"
+                 class="textInput"
+                 size="35" type="text"  
+                />
+                
+          <label for="createthread.maintext">Tekst <em>*</em></label>
+          <textarea title="Skriv en teksten på innlegget ditt her" 
+                    name="createthread.maintext:ustring:utf8:record"
+                    id="createthread.maintext"
+                    class="textInput"
+                    tal:content="options/createthread/maintext | nothing"
+                 rows="3" cols="26"></textarea>   
+                 <label style="display:inline;" for="subscribe" tal:content="wa_content/subscriber_status/statusText | nothing">Varsle meg på epost ved nye diskusjonsinnlegg</label>
+                 <tal:canSubscribe tal:condition="wa_content/subscriber_status/canSubscribe">                  
+                  <input class="checkbox" id="subscribe" type="checkbox" name="subscribe"/>
+                 </tal:canSubscribe>
+                 <tal:cannotSubscribe tal:condition="not:wa_content/subscriber_status/canSubscribe">
+                  <input disabled class="checkbox" id="subscribe" type="checkbox" name="subscribe"/>
+                 </tal:cannotSubscribe>
+                 <br/><br/>
+                 
+          <button type="submit" class="submitButton">Opprett diskusjonstråd</button>
+        </div>
+        </div>
+      </form>
+
+      
+      
+      
+      
+    </div> 
+  
+    <div metal:fill-slot="right" id="rightcolumn" tal:define="wa_content context/workarea_view.py">      
+        <form method="post" action="" tal:attributes="action string:${context/absolute_url}/${wa_content/workarea_subscriber/action}">
+        <h2 class="decoration decoration_bg_ffffff">Endringsvarsel</h2>  
+          <div style="margin: 1.2em 2em 0em 2em;">        
+            <tal:canSubscribe tal:condition="wa_content/workarea_subscriber/canSubscribe | nothing">
+              <p>En endring er definert ved at det lastes opp en ny fil, legges til et nytt medlem eller at det opprettes en diskusjonstråd</p>          
+              <input type="submit" value="Deaktiver endringsvarsel" tal:attributes="value wa_content/workarea_subscriber/buttonText">
+              </tal:canSubscribe>
+              <tal:canNotSubscribe tal:condition="not: wa_content/workarea_subscriber/canSubscribe | nothing">
+                <p>
+                Epostvarsling for arbeidsrom gir deg mulighet til å bli varslet når det skjer endringer i arbeidsrommet.            
+                </p>
+                <p>
+                Du må oppgi en epostadresse i din personlige profil før du kan benytte epostvarsling for arbeidsrom
+                </p>
+              </tal:canNotSubscribe>
+            </div>
+      </form>
+      <form method="post" action="" tal:attributes="action string:${context/absolute_url}/workarea_removeMember"
+            tal:define="managers wa_content/managers | nothing" 
+            tal:condition="managers">
+        <h2 class="decoration decoration_bg_ffffff">Brukere av dette arbeidsrommet</h2>      
+        <ul class="contentlisting">
+          <li tal:repeat="manager managers">
+            <input tal:attributes="value manager/tm_serial" name="tm_serial:int:list" type="checkbox"/>   
+            <a href="" tal:content="manager/title_or_id" tal:attributes="href manager/absolute_url"></a>
+          </li>
+        </ul>
+        <div>
+          <input style="width:auto; margin-left: 1.8em;" type="submit" value="Fjern tilgang"/>
+        </div>
+      </form>
+      <form class="bordertop" id="searchpersons" method="get" action="" tal:attributes="action context/absolute_url">
+        <div style="margin: 1.2em 2em 0em 2em;">
+          <label style="display:block;" for="membersearch">Legg til ny bruker</label>
+          <p>Dersom du ikke finner den du leter etter, kan det hende at vedkommende ikke er bruker i portalen. <a href="#" tal:attributes="href string:${context/absolute_url}/memberInviteForm">Her</a> inviterer du en ny bruker til portalen</p>
+          <input id="membersearch" style="width: 10em;" type="text" name="searchableText:ustring:utf8"/>
+          <input style="width: auto;" type="submit" value="Søk" name="search_person:method"/>        
+        </div>        
+      </form>
+      <form method="post" action="" 
+            tal:attributes="action context/absolute_url"
+            tal:define="persons options/persons | nothing" 
+            tal:condition="persons">
+        
+          <ul class="contentlisting">
+            <li tal:repeat="person persons">
+              <input type="checkbox" name="tm_serial:int:list" tal:attributes="value person/tm_serial; id string:tm_${person/tm_serial}">
+              <a tal:content="person/title_or_id" tal:attributes="href person/absolute_url">                
+              </a>            
+            </li>
+          </ul>
+          <div>
+            <input style="margin: 0em 2em 0em 2em;width:auto;" type="submit" value="Gi tilgang" name="workarea_addMember:method"/>
+          </div>
+        </form>
+        
+        
+      
+    </div>
+    <tal:tipandprint metal:fill-slot="contentfooter"></tal:tipandprint>
+  </body>
+</html>

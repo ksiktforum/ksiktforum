@@ -1,0 +1,28 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title>Default frontpage</title>
+  </head>
+  <body> 
+    <tal:mainbottom metal:fill-slot="mainbottom" tal:define="pcontent context/person_view.py">          
+      <div class="" tal:define="articles pcontent/articles | nothing" tal:condition="articles">
+        <h2 class="decoration decoration_bg_f0f3e2">Artikler skrevet av <tal:title tal:replace="context/title_or_id"></tal:title></h2>      
+          <ol class="contentlisting summary nopadding enhanced marginleft">
+            <li tal:repeat="article articles/articles">
+              <span class="date" tal:content="article/date">(04.05.2007)</span><h3><a href="" tal:content="article/title_or_id" tal:attributes="href article/absolute_url">Duis dignissim mattis sem. Cras ante. Etiam posuere laoreet magna.</a></h3>
+            </li>         
+          </ol>          
+      </div>                            
+    </tal:mainbottom>
+    <div metal:fill-slot="right" id="rightcolumn">      
+      <img alt="" src="" tal:define="image content/image" tal:condition="image" tal:attributes="src image/url; alt image/alttext">
+      <div class="borderbox box" tal:define="pcontent context/person_view.py; subjects pcontent/contact_for | nothing;" tal:condition="subjects">          
+        <h2>Kontaktperson for</h2>
+        <ul>
+          <li tal:repeat="subject subjects">
+            <a href="" tal:attributes="href subject/absolute_url" tal:content="subject/title_or_id"></a>
+          </li>
+        </ul>
+        </div>      
+    </div>
+  </body>
+</html>

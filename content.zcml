@@ -1,0 +1,63 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <five:registerClass
+      class=".WorkArea.WorkArea"
+      meta_type="WorkArea"
+      permission="cmf.AddPortalContent"      
+      />
+
+  <utility
+      component=".WorkArea.WorkAreaFactory"
+      name="ksiktforum.workarea"
+      />
+      
+  <five:registerClass
+      class=".WorkArea.WorkAreaTypeInformation"
+      meta_type="WorkArea Type Information"
+      addview="addWorkAreaTypeInformation.html"
+      permission="cmf.ManagePortal"
+      global="False"
+  />
+  <browser:page
+      for="zope.app.container.interfaces.IAdding"
+      name="addWorkAreaTypeInformation.html"
+      template="addWorkAreaTypeInformation.pt"
+      class="Products.ksiktforum.browser.typeinfo.WorkAreaTypeInformationAddView"
+      permission="cmf.ManagePortal"
+  />
+  
+  
+  
+    <five:registerClass
+      class=".DocumentBank.DocumentBank"
+      meta_type="DocumentBank"
+      permission="cmf.AddPortalContent"      
+      />
+
+  <utility
+      component=".DocumentBank.DocumentBankFactory"
+      name="ksiktforum.documentbank"
+      />
+      
+  <five:registerClass
+      class=".DocumentBank.DocumentBankTypeInformation"
+      meta_type="Documentbank Type Information"
+      addview="addDocumentBankTypeInformation.html"
+      permission="cmf.ManagePortal"
+      global="False"
+  />
+  <browser:page
+      for="zope.app.container.interfaces.IAdding"
+      name="addDocumentBankTypeInformation.html"
+      template="addDocumentBankTypeInformation.pt"
+      class="Products.ksiktforum.browser.typeinfo.DocumentBankTypeInformationAddView"
+      permission="cmf.ManagePortal"
+  />
+  
+  
+      
+</configure>

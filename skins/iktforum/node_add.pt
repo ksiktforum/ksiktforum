@@ -1,0 +1,20 @@
+<tal:node tal:define="widget options/widget | nothing" tal:condition="widget">
+
+  <div id="node_add" class="node clearfix">
+    
+    <form tal:attributes="action context/absolute_url" method="post">     
+      <div id="" class="action_area clearfix">
+          
+        <table tal:define="content widget/content | nothing" tal:condition="content"></table>
+        <label for="id">Node title</label>
+        <input type="text" id="title" name="title:ustring:utf8">
+         <label for="ingress">Ingress</label>
+         <textarea id="ingress" rows="7" name="ingress:ustring:utf8"></textarea>
+        <input class="radio" type="radio" checked name="level:int" value="0">Same level <br>
+        <input class="radio" type="radio" name="level:int" value="1">Level below<br>
+        <input type=hidden name="serial:int" tal:attributes="value widget/serial | python:0" value="0">
+        <button class="add" type="submit" name="node_add.py:method"><span>Create new node</span></button>
+      </div>
+    </form>
+  </div>
+</tal:node>

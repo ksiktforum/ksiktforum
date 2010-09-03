@@ -1,0 +1,20 @@
+#searchcontent{
+  padding: 1.2em;
+}
+#searchform{
+  padding-left: 2.2em;
+}
+  #searchform input{
+    width: auto;
+  }
+#filters{
+
+}
+
+.sortSearch a.selected{
+  font-weight: bold;
+  padding: 0em;
+}
+#filters a.selected{
+  font-weight: bold;
+}

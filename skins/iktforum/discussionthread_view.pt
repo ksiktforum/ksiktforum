@@ -1,0 +1,68 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <tal:main metal:fill-slot="main" tal:define="discussionthread context/discussionthread_view.py">
+
+    <a tal:attributes="href string:${context/absolute_url}/discussionthread_view#postfollowup_anchor">Delta i diskusjonen</a>
+    <br />
+    <br />
+    
+    <h2 tal:content="discussionthread/heading">Diskusjons-tittel</h2>
+    <p tal:content="discussionthread/maintext">Selve teksten i innlegget. </p>
+
+      <tal:threads tal:condition="discussionthread/followups"
+          tal:define="canRemoveDiscussionThreadFollowups python:user and user.has_role('Manager')"
+          
+          >
+        <h2>Diskusjoner</h2>
+        <form method="POST" tal:attributes="action string:${context/absolute_url}/deleteDiscussionThreadFollowups"
+             tal:omit-tag="not:canRemoveDiscussionThreadFollowups" >      
+          <div>
+              <ol>
+                <li tal:repeat="followup discussionthread/followups"
+                    tal:attributes="class python:test(repeat['followup'].even(), 'even', '')"
+                    >
+                  <div class="comment">
+                    <tal:deletecheckbox tal:condition="canRemoveDiscussionThreadFollowups">
+                      <input type="checkbox" class="checkbox" name="selectedDiscussionThreadFollowups:list:int" 
+                             title="Marker for å sleete dette innlegget"
+                             tal:attributes="value followup/tm_serial"/></tal:deletecheckbox>
+                             
+                    <a tal:attributes="href followup/author/url"
+                       tal:content="followup/author/name">Jon Jenser</a>
+                    <div tal:content="followup/maintext">min først posting</div>
+                  </div>
+                </li>
+              </ol>            
+            <input type="submit"  value="Slett Merkede" tal:condition="canRemoveDiscussionThreadFollowups"/>
+          </div>
+        </form>
+      </tal:threads>
+ 
+
+
+      <form method="POST" tal:attributes="action string:${context/absolute_url}/addDiscussionThreadFollowup">        
+        <div>
+          <a href="#" name="postfollowup_anchor"></a>                            
+                        
+          <label for="createfollowup.maintext" ><em>*</em> Tekst</label>
+          <textarea title="Skriv en teksten på innlegget ditt her" 
+                    name="createfollowup.maintext:record:ustring:utf8"
+                    id="createfollowup.maintext"
+                    class="textInput"
+                    tal:content="options/createfollowup/maintext | nothing"
+                 rows="3" cols="26"></textarea>   
+          <button type="submit" class="submitButton">Send bidrag</button>
+        </div>
+
+      </form>
+      
+      
+
+
+    </tal:main>
+
+</body>
+</html>

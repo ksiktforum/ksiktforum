@@ -1,0 +1,58 @@
+<tal:node tal:define="widget options/widget; node_content context/node_edit.py">
+  <div class="node edit clearfix">
+  <form tal:attributes="action context/absolute_url" method="post" enctype="multipart/form-data">
+  <label class="hidden" for="title">Tittel</label>  
+  <input class="title" id="title" type="text" size="50" name="title:ustring:utf8" value="" tal:attributes="value widget/title">
+  <label class="hidden" for="ingress">Ingress</label>  
+  <textarea class="title" id="ingress" rows="5" tal:content="widget/ingress | nothing" name="ingress:ustring:utf8"></textarea>
+  
+  
+  
+  <input type="hidden" tal:attributes="value widget/serial" name="serial:int">
+  <input type="hidden" name="target" value="" tal:attributes="value string:action=edit&serial:int=${widget/serial}">  
+  <!--
+  <table tal:define="content widget/content |nothing" tal:condition="content">
+  -->
+  <table id="focused" class="file_table" tal:define="connectedFiles node_content/connectedFiles | nothing">
+    <thead>
+      <th>File title</th>
+      <!--
+      <th>Filename</th>
+      -->
+      <th></th>
+    </thead>
+    <tbody>
+      <tr tal:repeat="connectedFile connectedFiles | nothing" tal:attributes="class python: test(repeat['connectedFile'].odd(),'odd','' )">
+        <td><a class="target" tal:content="connectedFile/title" tal:attributes="href connectedFile/url; class string:target icon ${connectedFile/iconclass}" href=""></a></td>
+        <!--
+        <td tal:content="connectedFile/filetitle">Bouvet.xls</td>
+        -->
+        <td><input type="checkbox" class="checkbox" name="remove_connectedFile:int:list" tal:attributes="value connectedFile/tm_serial; id string:row_${connectedFile/tm_serial}"><label for="" tal:attributes="for string:row_${connectedFile/tm_serial}">Mark for Removal</label></td>
+      </tr>
+      
+    </tbody>
+  </table>
+  <div id="uploadqueue_container" class="none"></div>
+  <div id="fileupload" class="action_area clearfix">        
+    <h2><label for="existing_file">Add existing file</label></h2>
+    <select name="existing_file:int" id="existing_file">
+      <option value="0">Choose existing file</option>
+      <option value="" tal:repeat="file node_content/uploadedFiles" tal:content="file/title" tal:attributes="value file/attachment/tm_serial; disabled file/disabled">En fil</option>
+      
+    </select>
+    <h2>File upload</h2>
+    <label for="filetitle">Filetitle</label>
+    <input size="30" id="filetitle" name="filetitle:ustring:utf8:list" type="text">
+    <label for="newfile">File</label>
+    <input size="30" class="input_file" type="file" name="newfile:list" id="newfile">
+    <input id="overwrite" name="overwrite" type="checkbox" style="display: inline;"><label for="overwrite">Overwrite exisiting file(s)</label>
+    <div class="buttons clearfix">
+      <button id="newfile_add_to_queue" class="add" type="submit"><span>Add file to upload list</span></button>
+      <button class="confirm" type="submit" name="node_edit.py:method"><span>Save changes</span></button>
+    </div>
+  </div>   
+  </form>
+  </div>
+</tal:node>
+
+

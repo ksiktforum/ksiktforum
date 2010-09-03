@@ -1,0 +1,41 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <metal:block metal:fill-slot="scripts">    
+      <script type="text/javascript" src="" tal:attributes="src context/iktforum_script/jquery-1.2.1.min.js/absolute_url"></script>
+      <script type="text/javascript" src="" tal:attributes="src context/iktforum_script/documentbank.js/absolute_url"></script>
+    </metal:block>
+    <metal:block metal:fill-slot="css">
+      <link rel="stylesheet" type="text/css" href="" tal:attributes="href context/iktforum_style/documentbank.css/absolute_url">
+    </metal:block>
+  </head>
+  <body> 
+    <div metal:fill-slot="mainbottom" id="documentbank" tal:define="db_content context/documentbank_view.py; content context/content_view.py">
+    
+   
+    <form tal:attributes="action context/absolute_url" method="post" enctype="multipart/form-data"
+      tal:condition="not: db_content/toplevel | nothing"
+    >
+    <div id="node_add" class="agenda clearfix action_area">    
+      <form tal:attributes="action context/absolute_url" method="post">     
+        <div class="node">        
+          <label for="title">Node title</label>
+          <input type="text" id="title" class="title" name="title:ustring:utf8">
+          <label for="ingress">Ingress</label>
+          <textarea id="ingress" class="title" rows="7" name="ingress:ustring:utf8"></textarea>
+          <input class="radio" type="hidden" checked name="level:int" value="0">          
+          <input type=hidden name="serial:int" value="0">
+          <button class="add" type="submit" name="node_add.py:method"><span>Create new node</span></button>
+        </div>
+      </form>
+      </div>
+    </form>
+
+      <div class="agenda">
+        <tal:agenda tal:replace="structure db_content/agendaHTML"/>
+      </div>
+    </div> 
+  </body>
+</html>
+

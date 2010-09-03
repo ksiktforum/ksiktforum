@@ -1,0 +1,124 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title metal:fill-slot="titleslot">KS IKT-Forum</title>
+    
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>  
+     <div id="leftcolumn" metal:fill-slot="left">        
+        <ul class="buttons"  
+            tal:define="links content/leftcolumn_top_list"
+            tal:condition="links"
+            >
+         <li tal:repeat="link links">
+          <a href="" tal:attributes="href link/absolute_url"
+                     tal:content="link/title_or_id"                                          
+         >KS.no</a></li>         
+        </ul>
+          
+          
+       
+        <h2 style="margin-top: 27em; margin-left: 0em;" class="decoration decoration_bg_f0f3e2">Lenker</h2>
+        <ul class="buttons bordertop"
+            tal:define="links content/leftcolumn_link_list"
+            tal:condition="links"
+            >
+         <li tal:repeat="link links">
+          <a href="" tal:attributes="href link/absolute_url"
+                     tal:content="link/title_or_id"                                          
+         >KS.no</a></li>         
+        </ul>
+      </div>    
+  
+  
+  
+    <tal:contenttype metal:fill-slot="contenttype">
+        
+    </tal:contenttype>
+    <div class="yui-gc" metal:fill-slot="full" tal:define="content context/frontpage_view.py">
+      
+      <tal:status tal:define="status options/status | request/status | nothing" tal:condition="status">
+        <div style="padding: 1.2em 0em 0em 1.2em;">
+          <ul class="error" tal:define="errors status/errors | request/errors | nothing" tal:condition="errors">
+            <li tal:repeat="error errors" tal:content="error"></li>
+          </ul>        
+        <ul class="statusmessage"  tal:define="messages status/messages | nothing" tal:condition="messages">
+          <li tal:repeat="message messages" tal:content="message"></li>
+        </ul>
+        </div>
+      </tal:status>
+      <h1 class="hidden">KS IKT-Forum</h1>
+    
+      <div id="frontpagetopwrapper" class="clearfix">
+        <div id="mainsubjects" >
+        <h2 class="decoration decoration_bg_e0e6b6">Hovedtema:</h2>
+        
+        <ul class="clearfix box columns twocolumns nomargin"
+            tal:define="mainsubjects content/mainsubjects | nothing"
+            tal:condition="mainsubjects"
+        >
+          <li tal:repeat="mainsubject mainsubjects">
+            <a tal:attributes="href mainsubject/absolute_url" tal:content="mainsubject/title_or_id" href="">Bredbnd/Internett</a>
+          </li>        
+        </ul>
+      </div>
+      <div id="campaign" class="clearfix" tal:define="campaign content/campaign" tal:condition="campaign">      
+        <a href="" tal:attributes="href campaign/absolute_url">        
+          <img tal:condition="campaign/imagedata" tal:attributes="src campaign/imagedata/url; alt campaign/imagedata/alttext">          
+        </a>        
+      </div>
+      </div>
+      
+      
+      <div id="fullFirstColumn" class="clearfix">
+        <h2 class="decoration decoration_bg_ffffff">Aktuelt:</h2>
+        <ol class="contentlisting enhanced nomarginbottom" tal:define="priority_content content/priority_content"
+                                   tal:condition="priority_content"
+          >
+          <li class="clearfix" tal:repeat="priority priority_content">
+            
+         
+            <h3 tal:content="priority/title_or_id">Donec placerat nisl quis odio</h3>
+            <img width="160px;" alt="" src="" tal:condition="priority/imagedata" tal:attributes="src priority/imagedata/url">
+            <div style="float: left;" tal:attributes="class python: test(priority['imagedata'], 'width60','')">
+              <p><span class="date" tal:content="priority/type_and_date">Artikkel, 05.05.2007</span><tal:ingress tal:content="structure priority/ingress"></tal:ingress></p>
+              <a class="hideme" href="#" tal:attributes="href priority/absolute_url">Les mer<span class="hidden"> om <tal:title tal:replace="priority/title_or_id">tittel</tal:title></span></a>
+            </div>
+          </li>
+        </ol>
+        <ol class="contentlisting summary enhanced" tal:define="latest_content content/latest_content"
+                                           tal:condition="latest_content"
+        >
+          <li tal:repeat="lc latest_content/content">           
+            <h3>            
+              <a href="#" tal:attributes="href lc/absolute_url"><tal:title tal:replace="lc/title_or_id"/> <span class="date">(<tal:type_and_date tal:replace="lc/type_and_date"></tal:type_and_date>)</span></a>
+            </h3>
+            
+          </li>        
+          <li><a class="arrow arrow_003365" href="#" tal:attributes="href latest_content/more_url">Flere aktuelle saker</a></li>
+        </ol>
+      </div>
+      <div id="fullSecondColumn" class="clearfix">
+      <div class="borderbox" tal:define="activities content/activities" tal:condition="activities">
+        <h2 class="decoration decoration_bg_ffffff">
+          Aktiviteter:
+        </h2>
+        <ol class="contentlisting enhanced">
+          <li tal:repeat="activity activities/content">
+            <h3>
+              <a href="" tal:attributes="href activity/absolute_url" tal:content="activity/title_or_id"></a>
+            </h3>
+            <p tal:content="string: Dato: ${activity/datestring}"></p>
+            <p tal:content="string: Sted: ${activity/location}">Sted</p>  
+            <p tal:content="string: Arrangør: ${activity/arrangor}">Sted</p> 												      
+          </li>          
+          <li><a tal:attributes="href activities/more_url" href="#" class="arrow arrow_003365">Flere aktiviteter (<tal:count tal:replace="activities/result_length"/>)</a></li>
+        </ol>
+      </div>       
+
+      </div>
+
+    </div>
+  </body>
+</html>

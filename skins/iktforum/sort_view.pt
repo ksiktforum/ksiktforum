@@ -1,0 +1,37 @@
+<html metal:use-macro="context/main_template/macros/master">
+  <head tal:define="member context/portal_membership/getAuthenticatedMember">
+    <title>Edit <span tal:replace="context/title_or_id"/></title>
+    <meta http-equiv="cache-control" content="no-cache">
+    <link rel="stylesheet" type="text/css" title="Publishing stylesheet" href="/portal/topicmanagement.css"
+          tal:attributes="href context/topicmanagement.css/absolute_url">
+    <metal:block fill-slot="stylesslot"><link rel="stylesheet" type="text/css" tal:attributes="href context/calendar-win2k-1.css/absolute_url"></metal:block>
+  </head>
+  <body id="ztmdefault">
+    <div style="padding: 1.2em;" metal:fill-slot="main" tal:define="sorting context/sort_view.py">
+    
+        <h1 tal:content="context/title_or_id"></h1>    
+        <p>Velg rekkef&oslash;lgen p&aring; artiklene.</p>
+        <form name="topicform" method="post" action="sort.py" enctype="multipart/form-data" class="ztm_topic_edit" tal:attributes="action string: ${context/absolute_url}/sort.py">
+	<ul style="list-style:none;" tal:define="articles sorting/articles" tal:condition="articles">
+        	<li class="clearfix" tal:repeat="article articles">               
+        	<input type="checkbox" value="" name="assoclist:tokens:list" tal:attributes="value string:${article/role_serial} ${article/otherrole_serial}"/>
+		<a href="#" tal:content="article/title_or_id" tal:attributes="href article/absolute_url">Artikkel-lenke</a>
+																			
+               </li>       
+            </ul>	
+
+	<label for="move">Move:</label>
+        <input id="move" type="string" name="move_length" value="1" size="3"/>																		
+        <input type="submit" name="move_up" value="Flytt opp">
+        <input type="submit" name="move_down" value="Flytt ned">
+        <!--input type="submit" name="remove" value="Fjern"-->
+      												
+																								
+								</form>
+    
+
+
+    </div>
+       
+  </body>
+</html>

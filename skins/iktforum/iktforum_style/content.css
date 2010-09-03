@@ -1,0 +1,1016 @@
+/*REFERENCE COLORS
+  global background: #f0f3e2
+  content background: #ffffff
+  heading color: #003365
+  borders, diffuse grey: #666666
+  subject #e0e6b6
+  subject_page #ecf0d5
+
+*/
+
+/*GLOBAL WHITESPACE RESET RELOADED, courtesy of http://meyerweb.com/*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: #f0f3e2;  
+}
+ol, ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+
+/*GLOBAL TEXT FORMATTING STYLES*/
+body{
+  font-family:Arial, Helvetica, sans-serif;
+  font-size:0.72em;
+  padding:0px;
+  margin:0px;
+  
+}
+h1,h2,h3{
+  color:#000000;  
+}
+
+h1{
+  font-size:2.26em;
+  margin-bottom:0.7em;
+}
+h2{
+font-size:1.2em;
+margin-bottom: 1em;
+font-weight: bold;
+color: #003365;
+}
+
+h1.decoration, h2.decoration{
+ margin-left: 1.2em;
+ padding-top: 0.8em;
+ padding-left: 1em;
+ font-size: 1em;
+ 
+ color: #666666 
+}
+h1.decoration{
+  font-size: 1.4em;
+  margin-left: 0.6em;
+}
+h2.decoration a{
+  color: #666666;
+  text-decoration:underline;
+  font-weight: bold;  
+}
+h1.decoration_bg_e0e6b6, h2.decoration_bg_e0e6b6{
+  background: transparent url('../iktforum_images/header_decoration_bg_e0e6b6.gif') no-repeat left bottom;
+}
+h1.decoration_bg_ffffff, h2.decoration_bg_ffffff{
+  background: transparent url('../iktforum_images/header_decoration_bg_ffffff.gif') no-repeat left bottom;
+}
+h1.decoration_bg_f0f3e2, h2.decoration_bg_f0f3e2{
+  background: transparent url('../iktforum_images/header_decoration_bg_f0f3e2.gif') no-repeat left bottom;
+}
+h1.decoration_bg_ecf0d5, h2.decoration_bg_ecf0d5{
+  background: transparent url('../iktforum_images/header_decoration_bg_ecf0d5.gif') no-repeat left bottom;
+}
+
+h3{
+  font-size:1.1em;
+	font-weight:normal;
+	color:#666666;
+}
+
+a{
+  text-decoration:none;
+  color:#003365;
+  font-weight: normal;
+}
+a:hover{
+  text-decoration:none;
+  color:#666666;
+}
+p{
+  margin-bottom: 0.8em;
+}
+ol.arrow a, ul.arrow a, a.arrow{
+  padding-left: 1em;
+  font-size: 1em;
+}
+ol.arrow_003365 a, ul.arrow_003365 a, a.arrow_003365{    
+  background: transparent url('../iktforum_images/arrow_003365.gif') no-repeat left top;
+  cursor: pointer;  
+}
+ul.arrow_ffffff a, a.arrow_ffffff{
+  background: transparent url('../iktforum_images/arrow_ffffff.gif') no-repeat left center;
+}
+
+
+
+/*STYLE FOR STRUCTURAL CONTENT*/
+
+#yui-main{
+  /*
+  border-top: 1px solid #666666;
+    */
+}
+.yui-gc{
+  /*
+  border-right: 1px solid #666666;
+  border-bottom: 1px solid #666666;
+  border-left: 1px solid #666666;
+  */
+  background-color: #FFFFFF;  
+
+}
+.yui-u{
+  
+}
+#leftcolumn{
+  margin-top: 1.6em;
+}
+#rightcolumn{
+
+}
+#content{
+  margin-top: 4.5em;
+}
+#frontpagetopwrapper{
+  background-color: #e0e6b6;  
+}
+#subjectpagetopwrapper{
+  background-color: #ecf0d5;
+  margin-bottom: 1.2em;  
+}
+
+#mainsubjects, #subject{
+  width: 67%;  
+  float: left;
+}
+#subject{
+  background-color: #ecf0d5;
+}
+
+#mainsubjects{
+  background-color: #e0e6b6;  
+}
+  #mainsubjects h2{
+    margin-bottom: 0em;
+  } 
+  #mainsubjects ul{
+    margin-left: 1em;
+  }
+  #mainsubjects a{    
+    background: transparent url('../iktforum_images/arrow_003365_small.gif') no-repeat left center;
+    padding-left: 0.5em;
+    font-size: 1em;    
+  }
+#hd{
+    color: #FFFFFF;
+    background: #666666 url('../iktforum_images/header_bg.gif') no-repeat left bottom;
+    height: 6.9em;
+    text-align: bottom;
+   
+}
+#hd a{
+  color: #FFFFFF;
+}
+#topmenu{padding-top: 0.6em;}
+
+#contenttype{
+  font-size: 1.2em;
+  color: #666666;
+
+}
+
+#about{
+  margin-bottom: 1.2em;
+}
+#contentwrapper{
+  padding: 1.2em 0 1.2em 1.2em;
+}
+#contentfooter{
+  margin-bottom: 1.2em;
+}
+#contentfooter a, #contentfooter span{
+  display: block;
+  margin-bottom: 1.2em;
+}
+
+#subject p.ingress{
+  font-size: 1.2em;
+  margin-left: 1.8em;
+}
+#subject p.text, div.text{
+  margin-left: 2em;
+  font-size: 1em;
+  line-height: 1.2em;
+}
+
+#fullFirstColumn{
+  width: 67%;
+  float: left;  
+}
+#fullSecondColumn{
+  width: 31.4%;
+  float: right;
+  padding: 1em 0em 1em 1em;
+}
+#personaltools{margin-bottom: 2.4em;}
+#personaltools a{
+  background-color: #e0e6b6;
+  border-right: 1px solid #859630;
+  border-bottom: 1px solid #859630;
+  padding: 0.4em 1.2em 0.4em 1.2em;
+  margin-right: 1.6em;
+}
+
+#globalsearch{}
+  #globalsearch input{width: auto; margin: 0.5em 1.2em 0em 0em;}
+
+
+  
+#loginform{margin: 0.6em 0em 0em 15em;}
+  #loginform input{width:auto;}
+
+#signupform{
+  margin-bottom: 1.2em;
+}
+#signupform input{
+  width: auto;
+  margin-bottom: 0.4em;
+  margin-left: 1.8em;
+}
+#signupform label{
+  margin-bottom: 0.4em;
+  display: block;
+  margin-left: 2em;
+}
+#signupform label.dn, #signupform input.dn{
+  display: none;
+}
+#signupform input{
+  display: block;
+}
+#signupform input.inline{
+  display:inline;
+  margin-bottom: 0;
+}
+  
+#manage_contentform{}
+#manage_contentform input{
+  width: auto;
+}
+  
+#profileedit{
+  
+}
+#profileedit input{width: auto;padding:0;margin:0 0 0.4em; display:inline;}
+#profileedit label, #profileedit img{display:block;}
+#profileedit img{
+  
+  border: 1px solid #666666;
+  
+}
+#profileedit textarea{width: auto;}
+
+ul#headermenu{
+  position:absolute;
+  top: 6.5em;
+  left: 5.8em;
+  width: 50em;
+}
+ul#headermenu li{margin-right:1em;}
+ul#headermenu li a{
+  font-weight:bold;   
+  background: transparent url('../iktforum_images/arrow_ffffff.gif') no-repeat left center;
+  padding-left: 0.8em;
+  font-size: 1em;
+}
+
+ul#tools{
+  position:absolute;
+  top: 6.5em;
+  left: 44em;
+  
+}
+#commentform{
+  width: 18em;
+  margin-bottom: 1.2em;
+}
+
+#commentform fieldset{
+  
+}
+#comment_adminform{}
+#comment_adminform input{
+  width: auto;
+}
+
+form#search{
+  position:absolute;
+  left: 44em;
+  top: 1.6em; 
+}
+form#search input{
+  width: auto;  
+  padding:0;
+  margin:0;
+}
+form#logininfo, #loggedInInfo{
+  position:absolute;
+  left: 64em;
+  top: 1.6em; 
+}
+form#logininfo a{
+  margin-left: 0.5em;  
+  font-weight: bold;
+}
+form#logininfo input{
+  width: 7em;  
+  padding: 0 0 0 0.2em;
+  margin: 0 0 0.2em 0;  
+}
+#loggedInInfo, #loggedInInfo a{
+  font-weight: bold;
+}
+
+
+#tipafriend{margin-bottom: 1.2em;}
+#tipafriend label{
+  margin-right: 1em;
+}
+#tipafriend input{
+  margin: 0;
+  padding:0;
+  width: auto;
+  margin-right: 0.2em;
+  padding-left: 0.2em;  
+}
+
+form#discussion{}
+form#discussion input{width:auto;}
+form#discussion label{display: block;font-size: 0.9em;}
+form#discussion h3{margin-bottom: 1em;color:#003365;font-weight:bold;font-size: 0.9em;}
+form#discussion a.arrow{font-size:1.2em;font-weight:bold;}
+
+#searchpersons{}
+
+
+
+/* General lists style */
+ul{}
+
+ul.box{
+  /*
+  padding: 1em;
+  */
+  
+}
+ul li dl{
+  margin-bottom: 0.8em;
+  margin-left: 0.6em;
+  font-size: 0.9em;
+}
+ul.columns li{
+  float: left;
+}
+ul.twocolumns li{
+  width: 50%;
+}
+ul.columns li{
+  margin-bottom: 0.3em;
+}
+ul.horisontal{}
+ul.horisontal li{display:inline;margin-right: 1.3em;}
+ul.buttons{margin-bottom: 2em;}
+ul.buttons li{
+  margin:0;
+  padding: 0.5em 0em 0.5em 0.5em;
+  /*
+  border-bottom: 1px solid #666666;
+*/  
+}
+ul.buttons li a{
+  font-weight: bold;
+}
+ul.structureddata{
+  background-color: #f0f3e2; 
+  padding:1.2em 1.2em 1.2em 1.2em;  
+  margin-bottom: 1.2em;
+}
+ul.structureddata li{
+  margin-bottom: 1em;
+}
+ul.structureddata li h2{
+  display: inline;        
+  float: left;
+  width: 12em;
+  font-size: 1em;
+  
+}
+ul.structureddata li p{
+  float:left;
+  width:25em;
+}
+ul.buttons li a{
+  display: block;
+}
+ul.contentlisting, ol.contentlisting{
+  padding: 0em 2em 0.2em 2em;
+  margin-bottom: 1.2em;  
+}
+ul.contentlisting li, ol.contentlisting li{
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+/*when we mix summary in the contentlisting*/
+ul.contentlisting li.summary h3, ol.contentlisting li.summary h3{
+  font-size: 1.2em;
+}
+
+ul.contentlisting li p span.date, ol.contentlisting li p span.date{
+  display: block;
+  margin-bottom: 0.5em;  
+  
+}
+ul.contentlisting li span.date, ol.contentlisting li span.date{
+  font-size: 1em;
+}
+ul.contentlisting li h2, ol.contentlisting li h3{
+  margin-bottom: 0.5em;  
+  color: #003365;
+  font-size: 1.6em;
+  font-family: verdana;  
+}
+ul.contentlisting li input{margin:0;width:auto;}
+
+ol.summary{
+  
+}
+ol.summary li h3{  
+  font-size: 1em;
+  display: inline;
+  
+  
+}
+
+
+.borderbox ul.contentlisting li a, .borderbox ol.contentlisting li a{
+  font-weight: normal;
+  
+  
+}
+ul.contentlisting li p, ol.contentlisting li p{
+  line-height: 1.2em;
+  margin-bottom: 0.3em;
+}
+ul.contentlisting li img, ol.contentlisting li img{
+  float: left;
+  margin: 0 1em 1em 0em;
+  /*
+  float: right;
+  margin: 0 0em 1em 1em;
+  */
+}
+ol.commentlisting{width: 95%}
+ol.commentlisting input{
+  margin: 0px;
+  padding: 0px;
+  width: auto;
+}
+ol.commentlisting li{
+  margin-bottom: 1.2em;
+}
+ol.commentlisting h3{margin-bottom: 0.5em; font-weight:bold;}
+ol.commentlisting p{  
+  margin-bottom: 1.2em;
+}
+ol.commentlisting .options{
+  background-color: #f0f3e2;
+  padding: 0.2em;
+  border-bottom: 2px solid #e0e6b6; 
+}
+ul.attendeelisting,ol.attendeelisting{
+  
+}
+
+ul.inlinemenu{}
+ul.inlinemenu li{
+  display: inline;
+}
+
+ul.error{
+  background-color: #cc6666;
+  color: #FFFFFF;
+  padding: 1.2em;
+  margin-right: 1.2em;  
+  margin-bottom: 1.2em;
+  font-weight: bold;
+}
+ul.statusmessage{
+  background-color: #68b05c;
+  padding: 1.2em;
+  margin-right: 1.2em;  
+  margin-bottom: 1.2em;
+  font-weight: bold;
+  color: #FFF;
+}
+ul.statusmessage li, ul.error li{
+  margin-bottom: 1.2em;
+}
+
+ul dl{}
+ul dl dt{float:left; clear:left; width: 25%;margin-bottom: 0.4em;}
+ul dl dd{float:left;}
+
+dl.contentlisting{}
+dl.contentlisting dt{font-weight:bold;}
+dl.contentlisting dd{margin-bottom: 1.2em;}
+
+
+/*
+  padding: 0em 2em 0em 2em;
+  margin-bottom: 1.2em;  
+}
+ul.contentlisting li, ol.contentlisting li{
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+*/
+ol.enhanced{
+  padding: 0em 2em 0em 1em;    
+}
+ol.enhanced li{
+  padding: 1em;
+  margin:0em;
+}
+ol li.enhanced{
+  background-color: #f4f6ed;
+  cursor: pointer;
+}
+ol.enhanced li li{
+  padding: 0em;
+  margin:0em 0em 0.8em 1.4em;
+}
+ol.enhanced li ul{
+  list-style: disc;
+}
+ol.enhanced li ol{
+  list-style: decimal;
+}
+ol li.enhanced h3{
+  
+}
+ol.summary li{
+  padding: 0.4em 1em 0.4em 1em;
+}
+ol#pager{
+margin:0 1.2em 1.2em 2em;;
+}
+ol#pager li{
+  display:inline;  
+  margin-right: 1.2em;
+}
+ol#pager li a{
+  font-weight: bold;
+}
+ol#pager li a.selected{
+  background-color: #666666;
+  color: #FFF;
+  padding: 0em 1em 0em 1em;
+}
+li.selected, span.selected{
+  font-weight: bold;
+  color: #003365
+}
+li.chapter{
+ padding-left: 1em;
+}
+li.book{
+ 	text-transform: uppercase;
+}
+/* General tablestyles */
+table.contentlisting{
+  width:100%;  
+  margin-bottom: 1.2em;
+  border-collapse: collapse;
+}
+table.contentlisting td, table.contentlisting th{
+  padding: 0.5em;
+}
+table.contentlisting th{
+  background-color: #e0e6b6;
+  font-weight: bold;
+  color: #666666;
+}
+table.contentlisting tr.even{
+  background-color: #f0f3e2;
+}
+
+
+
+/* Page block contents */
+#campaign{  
+  float: right;  
+}
+#campaign{
+
+}  
+
+.box{  
+  padding: 1.1em;
+  margin-bottom: 1.2em;  
+  font-size: 1.2em;
+}
+.smallbox{
+  padding: 0.2em;
+}
+.box ul.contentlisting{
+  margin-left: 0px;
+}
+
+.boxbackground{
+  background-color: #e0e6b6;
+}
+.box_bg_ecf0d5{
+  background-color: #ecf0d5
+}
+.box_bg_e0e6b6{
+  background-color: #e0e6b6
+}
+
+.box h1{
+ font-size: 1.2em;
+}
+h2.box{
+  padding: 0.2em;
+}
+.borderbox{
+  /*
+  border-top: none;
+  border-bottom: none;;
+  */
+  margin-bottom: 2em;
+}
+.borderbox h2{
+  font-weight:bold;
+  font-size: 1em;
+  color: #666666;
+}
+.borderbox .contentlisting h3{
+  font-size: 1em;  
+}
+.borderbox .contentlisting h3 a{
+  font-weight: bold;
+}
+
+.decoration{
+  background-color: #f0f3e2; 
+  font-size: 1.2em;
+}
+.decorationTopBorder{
+  border-top: 0.5em solid #e0e6b6;
+}  
+
+form legend{
+  margin-bottom: 0.7em;
+  font-weight:bold;
+  color: #003365;
+  padding:0;
+}
+
+
+
+form input, form textarea{
+  width: 98%;
+  margin-bottom: 0.5em;
+}
+form input.checkbox{
+  margin: 0
+}
+form input.radiobutton{
+  margin: 0; 
+  width:auto;
+}
+form label{
+  color: #003365;
+  margin-bottom: 0.4em;
+}
+form input.button, form input.checkbox{
+  width: auto;
+}
+form input.attachedbutton{
+  width: 70%;
+}
+form.upload{}
+form.upload input.file{
+  width: 80%;
+}
+form.upload a.arrow{font-size:1.2em;font-weight:bold;}
+form.upload h3{margin-bottom: 1em;color:#003365;font-weight:bold;font-size: 0.9em;}
+
+
+/*Textelements*/
+.date{
+  margin-right: 0.5em;
+  color: #333366;
+  font-size: 1em;
+}
+
+div.ingress em{
+ font-style:italic;
+}
+
+div.ingress strong{
+ font-weight: bold;
+}
+
+div.ingress ul {
+ list-style: disc;
+	margin-left: 2em;
+}
+
+div.ingress ol{
+ list-style: decimal;
+	margin-left: 2em;
+}
+
+div.ingress blockquote{
+ margin-left: 2em;
+}
+div.ingress sub{
+ vertical-align:sub;
+}
+
+div.ingress sup{
+ vertical-align:top;
+}
+
+div.bodytext, p.ingress, div.ingress{
+  margin-bottom: 1em;
+}
+
+p.ingress, div.bodytext p, div.ingress{
+  line-height: 1.3em;  
+}
+p.ingress a, div.bodytext a, div.ingress a{
+  text-decoration:underline; 
+}
+p.ingress a:hover, div.bodytext a:hover, div.ingress a:hover{
+  background-color: #e0e6b6;
+  color:  #003365; 
+  
+}
+div.bodytext{
+  font-size: 1.2em;
+}
+div.bodytext ul, div.bodytext ol{
+  list-style: disc;
+  margin-bottom: 1em;
+}
+div.bodytext ul li, div.bodytext ol li{
+  margin-left: 1.2em;  
+  margin-bottom: 0.5em;
+}
+div.bodytext h3{
+  margin-bottom: 0.2em;
+  color: #003365;
+  font-size: 1.2em;
+}
+div.bodytext strong{
+  font-weight: bold;
+}
+
+div.ingress{
+  font-size: 1.4em;  
+}
+div.ingress img{
+  float: right;
+  margin: 0em 0em 1em 1em;
+  
+}
+a.icon{
+ padding-left: 1.6em;
+ padding-top: 0.2em;
+ padding-bottom: 0.2em;
+  
+  
+}
+a.pdf{
+   background: transparent url('../iktforum_images/ikoner/pdf.gif') no-repeat left top;
+}
+a.doc{
+   background: transparent url('../iktforum_images/ikoner/doc.gif') no-repeat left top;
+}
+a.xls{
+   background: transparent url('../iktforum_images/ikoner/xls.gif') no-repeat left top;
+}
+a.xml{
+   background: transparent url('../iktforum_images/ikoner/xml.gif') no-repeat left top;
+}
+a.txt{
+   background: transparent url('../iktforum_images/ikoner/txt.gif') no-repeat left top;
+}
+a.ppt{
+   background: transparent url('../iktforum_images/ikoner/ppt.gif') no-repeat left top;
+}
+a.jpg{
+   background: transparent url('../iktforum_images/ikoner/jpg.gif') no-repeat left top;
+}
+a.gif{
+   background: transparent url('../iktforum_images/ikoner/gif.gif') no-repeat left top;
+}
+a.feed{
+   background: transparent url('../iktforum_images/ikoner/feed-icon.jpg') no-repeat left top;
+}
+a.printer{
+   background: transparent url('../iktforum_images/ikoner/printer.gif') no-repeat left top;
+}
+a.odt{
+   background: transparent url('../iktforum_images/ikoner/odt.gif') no-repeat left top;
+}
+a.ods{
+   background: transparent url('../iktforum_images/ikoner/ods.gif') no-repeat left top;
+}
+a.magnifying{
+   background: transparent url('../iktforum_images/xmag.gif') no-repeat left center;
+   font-weight: bold;
+   padding-left: 2em;
+}
+a.confirm{
+  background: transparent url('../iktforum_images/ikoner/confirm.gif') no-repeat left center;
+  font-weight: bold;
+  padding-left: 2em;
+}
+a.close{
+  background: transparent url('../iktforum_images/ikoner/close.gif') no-repeat left center;
+  font-weight: bold;
+  padding-left: 2em;
+}
+
+a.externallink{
+   background: transparent url('../iktforum_images/external_link.gif') no-repeat right center;
+   padding-right: 1.2em;
+}
+a.delete{
+  background: transparent url('../iktforum_images/delete.gif') no-repeat left center;
+}
+a.edit{
+  background: transparent url('../iktforum_images/pencil.gif') no-repeat left center;
+  
+}
+a.toolbutton{
+  font-size: 1.4em;
+  line-height: 5em;
+  padding: 2em 2em 2em 2em;
+  background: transparent url('../iktforum_images/toolbutton.gif') no-repeat center center;
+}
+
+
+
+/*HELPERS*/
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+
+.dn { display:none }
+.hidden{
+  position:absolute;
+  margin-left:-9999px;
+  visibility:hidden;
+}
+.left{
+  float: left;  
+}
+.right{
+  float:right;
+}
+.half{
+  width: 45%;
+}
+.nomargin{
+  margin:0em;
+}
+.nopadding{
+  padding:0em;
+}
+ul.nomargin, ol.nomargin{
+  margin:0em;  
+}
+ol.nomarginbottom{
+  margin-bottom: 0em;
+}
+ol.nopadding, ul.nopadding{
+  padding:0em;  
+}
+ol.applypadding{
+  padding:0em 1.2em 1.2em 1.2em;
+}
+.bordertop{
+  /*
+  border-top: 1px solid #666666
+  */
+}
+.inline{
+  display:inline;
+}
+.block{
+  display: block;
+}
+.marginbottom{
+  margin-bottom: 1.2em;
+}
+.marginleft{
+  margin-left: 1.4em;
+}
+.marginleftextra{
+  margin-left: 2em;
+}
+.width60{
+  width: 60%;
+}
+.width70{
+  width: 70%;
+}
+            div.bodytext table{border: 1px solid black; border-right: None; border-bottom: None;}
+	                div.bodytext table thead{
+	                  background-color: #E0E6B6;
+	                   
+	                  
+	          
+	                }
+	                
+	                div.bodytext table thead tr td{
+	            border-bottom: 1px solid black;
+	                  font-weight: bold;
+	    padding: 0.2em;
+	    color: #666;
+	                }
+	                div.bodytext table td{
+	                 border-right: 1px solid black;
+	                 border-bottom: 1px solid black;
+	                 padding: 0.2em;
+            }
+
+
+
+#socialmedia{
+  line-height: 1.4em;
+  overflow: auto;  
+  margin-bottom: 1em;
+  clear:both;
+  zoom: 1;
+  
+}
+#_atssh{
+ display: none !important; 
+ 
+}

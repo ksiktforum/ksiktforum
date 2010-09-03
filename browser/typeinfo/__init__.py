@@ -1,0 +1,1 @@
+from typeinfo import WorkAreaTypeInformationAddView, DocumentBankTypeInformationAddView

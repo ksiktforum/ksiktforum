@@ -1,0 +1,262 @@
+<html metal:use-macro="context/content_view/macros/master">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Default frontpage</title>
+  </head>
+  <body> 
+    <tal:mainbottom metal:fill-slot="mainbottom" tal:define="seminar context/seminar_view.py">          
+
+      <tal:memberSignedUp tal:condition="seminar/memberIsAlreadySignedUp" >
+        <p>
+          Du er påmeldt til dette seminaret (som "<span tal:replace="seminar/membersName"/> (<span tal:replace="seminar/membersEmail"/>")).     <br />
+        </p>
+      </tal:memberSignedUp >
+  
+      <tal:registrationNotStarted tal:condition="python:not seminar['registrationTimeHasStarted'] and not seminar['registrationTimeHasEnded']">
+        <p>
+          Det er ikke mulig å melde seg på dette seminaret før <span tal:replace="python: DateTime(seminar['registration_start_date']).strftime('%d.%m.%Y %H:%M')" />.<br />
+        </p>
+      </tal:registrationNotStarted>
+       
+      <tal:registrationEnded tal:condition="seminar/registrationTimeHasEnded">
+        <p>
+          Det er ikke lenger mulig å melde seg på dette seminaret. Siste påmeldingstidspunkt var <span tal:replace="python: DateTime(seminar['registration_end_date']).strftime('%d.%m.%Y %H:%M')" />.<br />
+        </p>
+      </tal:registrationEnded>
+                  
+      <tal:registrationEnded tal:condition="python:seminar['registrationTimeHasStarted'] and not seminar['registrationTimeHasEnded']">
+      <!--
+        Påmeldingsfristen for denne konferansen er <span tal:replace="python: DateTime(seminar['registration_end_date']).strftime('%d.%m.%Y %H:%M')" />.<br />
+        -->
+      </tal:registrationEnded>
+         
+
+      <tal:nolimit tal:condition="python:seminar['vacantSpots'] == -1" >
+        <p>
+          Det er ikke satt noen grense for antall deltakere på dette seminaret.
+        </p>
+      </tal:nolimit>
+     
+      <tal:onevacancy tal:condition="python:seminar['vacantSpots'] == 1" >
+        <p>
+          Det er bare én ledig plass igjen i seminaret.<br />
+        </p>
+      </tal:onevacancy> 
+     
+      <tal:finitenumber tal:condition="python:seminar['vacantSpots'] > 1" >
+        <p>
+          Det er <span tal:replace="seminar/vacantSpots" /> ledige plasser i seminaret.<br />
+        </p>
+      </tal:finitenumber> 
+     
+      <tal:novacancies tal:condition="python:seminar['vacantSpots'] == 0">
+        <p>
+        Det er ingen ledige plasser i seminaret.
+        </p>
+        <p>
+        <tal:hasSeminarEmail tal:condition="python:seminar['seminarEmail'] and not seminar['memberIsAlreadySignedUp']">
+          Hvis du likevel ønsker å melde deg seminaret, kan du kontakte ansvarlig person på 
+          <a tal:attributes="href string:mailto:${seminar/seminarEmail}"
+             tal:content="seminar/seminarEmail"  ></a>            
+        </tal:hasSeminarEmail>
+        </p>
+      </tal:novacancies> 
+  
+      
+      <form id="signupform" method="POST" action="addSeminarAttendee"
+            tal:condition="seminar/canSignUp"
+            tal:attributes="action string:${context/absolute_url}/addSeminarAttendee">
+        
+        
+        <div class="box_bg_ecf0d5 clearfix">                          
+          <h2 class="decoration decoration_bg_ecf0d5">Registrer deg som deltaker.<tal:memberIsSignedUp tal:condition="seminar/memberIsAlreadySignedUp | nothing" > (Du er selv allerede påmeldt)</tal:memberIsSignedUp></h2>  
+          
+                                          
+          <tal:name tal:repeat="fieldinfo seminar/honeypots/fieldinfolists/attendeename">
+              <label tal:attributes="for   fieldinfo/name;
+                                     class fieldinfo/labelclass | nothing" 
+                                     >
+                                     <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Navn</tal:dummy> 
+                                     <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+               <em>*</em></label>
+              
+              <input title="Skriv inn ditt navn her" 
+                     tal:attributes="value python:   ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                  or (not fieldinfo['ishoneypot'] and not seminar['memberIsAlreadySignedUp'] and seminar['membersName']) 
+                                                  or '';
+                                     name string:${fieldinfo/name}:ustring:utf8;
+                                     id fieldinfo/name;
+                                     class fieldinfo/class"
+                     size="35" type="text"
+                    />
+          </tal:name>
+          <tal:tittel tal:repeat="fieldinfo seminar/honeypots/fieldinfolists/attendeetitle">
+              <label tal:attributes="for   fieldinfo/name;
+                                     class fieldinfo/labelclass | nothing" 
+                                     > 
+                                     <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Tittel</tal:dummy> 
+                                     <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                     <em>*</em></label>
+              
+              <input title="Skriv inn din tittel her" 
+                     tal:attributes="value python:    ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                   or (not fieldinfo['ishoneypot'] and not seminar['memberIsAlreadySignedUp'] and seminar['membersTitle']) 
+                                                   or '';
+                                     name  string:${fieldinfo/name}:ustring:utf8;
+                                     id fieldinfo/name;
+                                     class fieldinfo/class"
+                     size="35" type="text"  
+                    />
+          </tal:tittel>
+										
+          <tal:workplace tal:repeat="fieldinfo seminar/honeypots/fieldinfolists/attendeeworkplace">
+              <label tal:attributes="for   fieldinfo/name;
+                                     class fieldinfo/labelclass | nothing" 
+                                     > 
+                                     <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Arbeidssted</tal:dummy> 
+                                     <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                     <em>*</em></label>
+              
+              <input title="Skriv inn din epostaddresse her" 
+                     tal:attributes="value python:    ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                   or (not fieldinfo['ishoneypot'] and not seminar['memberIsAlreadySignedUp'] and seminar['membersWorkplace']) 
+                                                   or '';
+                                     name  string:${fieldinfo/name}:ustring:utf8;
+                                     id fieldinfo/name;
+                                     class fieldinfo/class"
+                     size="35" type="text"  
+                    />
+          </tal:workplace>
+										
+          <tal:phone tal:repeat="fieldinfo seminar/honeypots/fieldinfolists/attendeephone">
+              <label tal:attributes="for   fieldinfo/name;
+                                     class fieldinfo/labelclass | nothing" 
+                                     > 
+                                     <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Telefon</tal:dummy> 
+                                     <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                     <em>*</em></label>
+              
+              <input title="Skriv inn din epostaddresse her" 
+                     tal:attributes="value python:    ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                   or (not fieldinfo['ishoneypot'] and not seminar['memberIsAlreadySignedUp'] and seminar['membersPhone']) 
+                                                   or '';
+                                     name  string:${fieldinfo/name}:ustring:utf8;
+                                     id fieldinfo/name;
+                                     class fieldinfo/class"
+                     size="35" type="text"  
+                    />
+          </tal:phone>				
+																										          
+          <tal:email tal:repeat="fieldinfo seminar/honeypots/fieldinfolists/attendeeemail">
+              <label tal:attributes="for   fieldinfo/name;
+                                     class fieldinfo/labelclass | nothing" 
+                                     > 
+                                     <tal:dummy tal:condition="not:fieldinfo/ishoneypot">Epostaddresse</tal:dummy> 
+                                     <tal:dummy tal:condition="fieldinfo/ishoneypot">Ikke skriv i dette feltet</tal:dummy> 
+                                     <em>*</em></label>
+              
+              <input title="Skriv inn din epostaddresse her" 
+                     tal:attributes="value python:    ((fieldinfo['unhashedname'] in options) and options[fieldinfo['unhashedname']]) 
+                                                   or (not fieldinfo['ishoneypot'] and not seminar['memberIsAlreadySignedUp'] and seminar['membersEmail']) 
+                                                   or '';
+                                     name  string:${fieldinfo/name}:ustring:utf8;
+                                     id fieldinfo/name;
+                                     class fieldinfo/class"
+                     size="35" type="text"  
+                    />
+          </tal:email>
+                    
+           
+          <tal:registrationoptions tal:repeat="registrationOption seminar/registrationOptions">
+            <label tal:content="registrationOption/question"></label>
+            
+            <tal:answers tal:repeat="answer registrationOption/answers">
+              <p>
+              <tal:checkIfOptionSelected
+                 tal:define="optionvaluename python:'registrationOption_%d_%d' % (repeat['registrationOption'].index, repeat['answer'].index);
+                             ischecked       python: (optionvaluename in options) and options[optionvaluename];                            
+                             type            python:{'*':'radio','+':'checkbox'}[answer['type']];
+                             name            string:registrationOption${repeat/registrationOption/index}:list:int;
+                             value           repeat/answer/index;
+                             "
+                 >
+                 
+                <input class="inline" tal:condition="not:ischecked"
+                       tal:attributes="type  type;name name;value value"  />
+                <input class="inline" tal:condition="ischecked" checked=""
+                       tal:attributes="type type;name name;value value"  />
+              </tal:checkIfOptionSelected><span tal:replace="answer/text"/>
+              </p>
+            </tal:answers>                     
+          </tal:registrationoptions>
+  
+
+
+          <input name="timestamp" type="hidden"   tal:attributes="name seminar/honeypots/fieldname2hashedfieldname/timestamp;
+                                                      value seminar/timestamp"  />
+                                                      
+          <input name="entryid" type="hidden"     tal:attributes="name seminar/honeypots/fieldname2hashedfieldname/entryid;
+                                                      value seminar/entryid"    />
+                                                      
+          <input name="ipaddress" type="hidden"   tal:attributes="name seminar/honeypots/fieldname2hashedfieldname/ipaddress;
+                                                      value seminar/ipaddress"  />                           
+          <input name="spinnervalue" type="hidden" tal:attributes="value seminar/honeypots/spinnervalue" />
+    
+          <input type="submit" value="Registrer deg som deltaker"/>
+        </div>
+    
+
+          
+      
+      </form>
+      
+        
+
+
+      <tal:noattendantlist tal:condition="not:seminar/attendeelist" >
+        
+      </tal:noattendantlist>
+      <tal:attendantlist tal:condition="python: content['isEditor'] and seminar['attendeelist']" >        
+        <hr />
+        <h2 class="decoration decoration_bg_ffffff">Deltakerliste (<span tal:replace="python:len(seminar['attendeelist'])"/>) 
+        &emsp;<a tal:attributes="href string:${context/absolute_url}/attendeesAsExcelSheet.xls">Excel Regneark</a>
+        </h2>
+        <form action="removeAttendees"
+          tal:define="canRemoveAttendees python:user and user.has_role('Manager')"
+          tal:attributes="action string:${context/absolute_url}/removeSeminarAttendees" 
+          tal:omit-tag="not:canRemoveAttendees"
+          method="POST">
+          <div>
+            <ol class="contentlisting attendeelisting">        
+              <li tal:repeat="attendee seminar/attendeelist">
+              
+                <input style="float:left; width: auto;" tal:condition="canRemoveAttendees"
+                       type="checkbox" title="Marker denne deltageren for å melde ham/henne ut av seminaret."
+                       name="removeattendee:int:list"
+                       tal:attributes="value attendee/tm_serial"
+                      
+                />
+                <p>
+                <span tal:replace="attendee/name">John Doe</span> 
+                (<a tal:attributes="href string:mailto:${attendee/email}" tal:content="attendee/email">John.Doe@bouvet.no</a>)
+                </p>
+																<!--p><span tal:replace="attendee/title">tittel</span>, <span tal:replace="attendee/workplace">arbeidssted</span></p-->
+                <p>
+                  påmeldt: <span tal:replace="attendee/created" >(18.05.07 08:55)</span>
+                </p>
+                <!--p tal:condition="attendee/registrationoptions">
+                Valg: <span tal:replace="attendee/registrationoptions" >saft og vann. </span>
+                </p-->
+              </li>         
+            </ol>        
+            <input style="width: auto;" tal:condition="canRemoveAttendees" type="submit" value="Fjern alle merkede deltakere fra seminaret">
+            <a tal:attributes="href string:${context/absolute_url}/attendeesAsExcelSheet.xls">Excel Regneark</a>
+          </div>
+        </form>
+      </tal:attendantlist>
+
+        
+         
+    </tal:mainbottom>
+  </body>
+</html>

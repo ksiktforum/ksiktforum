@@ -1,0 +1,100 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <tal:main metal:fill-slot="main" tal:define="discussions context/discussions_view.py">
+
+      <tal:discussions tal:condition="discussions/threads"
+          tal:define="canRemoveDiscussionThreads python:user and user.has_role('Manager')">
+        <h2>Diskusjoner</h2>
+        <form method="POST" tal:attributes="action string:${context/absolute_url}/deleteDiscussionThreads"
+              tal:omit-tag="not:canRemoveDiscussionThreads">      
+          <div>
+            <table class="contentlisting">
+              <thead>
+                <tr>
+                  <th tal:condition="canRemoveDiscussionThreads"></th>
+                  <th>Tittel</th>
+                  <th>Forfatter</th>
+                  <th>Antall svar</th>  
+                  <th>Siste svar</th>  
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>            
+                <tr tal:repeat="thread discussions/threads"
+                    tal:attributes="class python:test(repeat['thread'].even(), 'even', '')"
+                    >
+                  <td tal:condition="canRemoveDiscussionThreads"><input type="checkbox" class="checkbox" name="selectedDiscussionThreads:list:int" 
+                              title="Marker for å slette en tråd"
+                             tal:attributes="value thread/tm_serial"/></td>
+                  <td><a tal:attributes="href string:${thread/url}/discussionthread_view" 
+                         tal:content="thread/heading"
+                         title="Klikk for å se på innleggene i diskusjonstråden.">min først posting</a></td>
+                  <td>
+                    <a tal:attributes="href thread/author/url"
+                      tal:content="thread/author/name">Jon Jensen</a>
+                      </td>
+                  <td> <a tal:attributes="href string:${thread/url}/discussionthread_view" 
+                          tal:content="thread/followupcount"
+                          title="Klikk for å se på innleggene i diskusjonstråden.">42</a></td>
+                  
+                  
+                  <td>
+                    <tal:lastfollowup tal:condition="thread/followupcount"> 
+                      <a tal:attributes="href string:${thread/url}/discussionthread_view" 
+                         tal:content="python:DateTime(thread['lastfollowup']['createdtime']).strftime('%d.%m.%y')"
+                         title="Klikk for å se på innleggene i diskusjonstråden." />
+                      <a tal:attributes="href thread/lastfollowup/author/url" 
+                         tal:content="thread/lastfollowup/author/name">Jon Jensen</a>
+                    </tal:lastfollowup>
+                    <tal:nofollowups tal:condition="not:thread/followupcount">
+                      <a tal:attributes="href string:${thread/url}/discussionthread_view" 
+                         title="Klikk for å skrive ett innlegg i diskusjonstråden">Ingen svar</a>
+                    </tal:nofollowups>
+                  
+                  </td> 
+                </tr>
+              </tbody>
+            </table>
+            <input type="submit"  value="Slett Merkede" tal:condition="canRemoveDiscussionThreads"/>
+          </div>
+        </form>
+      </tal:discussions>
+ 
+
+
+      <form method="POST" action="addDiscussionThread" tal:attributes="action string:${context/absolute_url}/addDiscussionThread">        
+        <div>
+          
+          <h2>Opprett en ny diskusjons-tråd</h2>
+        
+          <label for="createthread.heading" ><em>*</em> Tittel  </label>          
+          <input title="Skriv inn en overskrift på diskusjonstråden." 
+                 tal:attributes="value options/createthread/heading | nothing"
+                 name="createthread.heading:record:ustring:utf8" 
+                 id="createthread.heading"
+                 class="textInput"
+                 size="35" type="text"  
+                />
+                
+          <label for="createthread.maintext" ><em>*</em> Tekst</label>
+          <textarea title="Skriv en teksten på innlegget ditt her" 
+                    name="createthread.maintext:record:ustring:utf8"
+                    id="createthread.maintext"
+                    class="textInput"
+                    tal:content="options/createthread/maintext | nothing"
+                 rows="3" cols="26"></textarea>   
+                                  
+          <button type="submit" class="submitButton">Opprett diskusjonstråd</button>
+        </div>
+
+      </form>
+      
+
+
+    </tal:main>
+
+</body>
+</html>

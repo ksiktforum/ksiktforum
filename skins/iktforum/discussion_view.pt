@@ -1,0 +1,110 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <tal:main metal:fill-slot="main" tal:define="discussionthread context/discussionthread_view.py">
+   
+       <tal:printcss tal:condition="request/print | nothing">
+         <style>
+           #contentwrapper .yui-u{
+             width: 100%;                   
+           } 
+           
+         </style>     
+         
+    </tal:printcss>
+   
+    <a href="#" class="arrow arrow_003365 noprint" style="font-size: 1.2em;" tal:attributes="href discussionthread/workarea/absolute_url | nothing">Tilbake til arbeidsrommet</a>
+    <h1 style="margin-left:0em;" tal:content="discussionthread/heading">Diskusjons-tittel</h1>
+    <p class="text" tal:content="discussionthread/maintext">Selve teksten i innlegget.</p>
+
+
+    <tal:threads tal:condition="discussionthread/followups"
+                 tal:define="canRemoveDiscussionThreadFollowups python:user and user.has_role('Manager')">        
+      
+      <form method="POST" tal:attributes="action string:${context/absolute_url}/deleteDiscussionThreadFollowups">      
+          <div>
+              <ol class="contentlisting" tal:condition="discussionthread/followups">
+                <li tal:repeat="followup discussionthread/followups"
+                    tal:attributes="class python:test(repeat['followup'].even(), 'even', '');
+                    "
+                  >
+                  <h2 tal:attributes="id string:tm_${followup/tm_serial};" class="box box_bg_e0e6b6 nomargin" tal:content="followup/title_or_id"></h2>
+                  <p class="smallbox box_bg_ecf0d5">
+                    Skrevet av: <a tal:attributes="href followup/author/url | nothing" tal:content="followup/author/name | nothing">Jon Jenser</a>, <tal:date tal:replace="followup/createdtime"/>
+                    <tal:edit tal:condition="canRemoveDiscussionThreadFollowups">
+                      <br/><span class="noprint">Merk for å slette kommentaren </span>
+                      <tal:deletecheckbox>
+                      <input type="checkbox" class="checkbox noprint" name="selectedDiscussionThreadFollowups:list:int" 
+                             title="Marker for å slette dette innlegget"
+                             tal:attributes="value followup/tm_serial"/></tal:deletecheckbox>
+                     </tal:edit>            
+                  </p>
+                       
+                 
+                 
+                  <p class="comment" tal:content="followup/maintext"></p>
+                  
+                
+                </li>
+              </ol>            
+            <input class="button marginleft noprint" type="submit"  value="Slett Merkede" tal:condition="canRemoveDiscussionThreadFollowups"/>
+          </div>
+        </form>
+      
+    </tal:threads>
+    
+    
+    <form class="noprint" id="discussion" method="POST" action="addDiscussionThread" tal:attributes="action string:${context/absolute_url}/addDiscussionThread">        
+      <div class="box box_bg_ecf0d5">          
+        <h3>Bidra til denne diskusjonstråden</h3>
+      
+        <label for="createthread.heading" >Tittel <em>*</em></label>          
+        <input title="Skriv inn en overskrift på diskusjonstråden." 
+               tal:attributes="value options/createthread/heading | nothing"
+               name="createthread.heading:ustring:utf8:record" 
+               id="createthread.heading"
+               class="textInput"
+               size="35" type="text"  
+              />
+              
+        <label for="createthread.maintext">Tekst <em>*</em></label>
+        <textarea title="Skriv inn teksten på innlegget ditt her" 
+                  name="createthread.maintext:ustring:utf8:record"
+                  id="createthread.maintext"
+                  class="textInput"
+                  tal:content="options/createthread/maintext | nothing"
+               rows="3" cols="26"></textarea>   
+                                
+        <input class="button" type="submit" class="submitButton" value="Opprett innlegg"/>
+      </div>
+    </form>
+      
+      
+
+
+    </tal:main>
+    <div style="border: none" metal:fill-slot="right" id="rightcolumn" tal:define="discussionthread context/discussionthread_view.py">
+  
+    
+    <h2 class="decoration decoration_bg_ffffff" style="margin-left: 0em;">Epostvarsling</h2>
+      
+      <p>Epostvarsling for diskusjoner gir deg mulighet til å bli varslet når det kommer nye innlegg i de diskusjonene du har valgt å følge med på.</p>
+
+      <form method="post" action=""
+        tal:attributes="action discussionthread/subscription_status/subscriptionAction"
+        >
+        <p>
+          <tal:status tal:content="discussionthread/subscription_status/statusText">Du abonnerer alt på denne diskusjonen</tal:status>          
+        </p>
+        <p tal:condition="discussionthread/subscription_status/canSubscribe">
+          <input class="button" type="submit" tal:attributes="value discussionthread/subscription_status/subscriptionActionText" value="Meld av"/>
+        </p>        
+      </form>
+
+    </div>
+
+</body>
+</html>
+

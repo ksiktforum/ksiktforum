@@ -1,0 +1,58 @@
+<html metal:use-macro="context/content_view/macros/master" tal:condition="nothing">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+    <tal:main metal:fill-slot="main" >
+
+
+      <form method="POST" action="sendMemberInvite" tal:attributes="action string:${context/absolute_url}/sendMemberInvite">        
+        <fieldset class="blockLabels">
+          
+          <legend>Inviter en person som bruker av denne portalen</legend>
+          <br/>
+        
+          <label for="invitemember.emails" >Epostadresse <em>*</em></label>          
+          <input title="Skriv inn epost addressen(e) til personen(e) du vil invitere." 
+                 tal:attributes="value options/invitemember/emails | nothing"
+                 name="invitemember.emails:record:ustring:utf8" 
+                 class="textInput"
+                 size="35" type="text"  
+                />
+          
+          <label for="Fullname" >Skriv inn det fulle navnet til personen du vil invitere. *</label>          
+          <input title="Skriv inn det fulle navnet til personen du vil invitere." 
+                 tal:attributes="value options/invitemember/fullname | nothing"
+                 name="invitemember.fullname:record:ustring:utf8"
+                 id="fullname"
+                 class="textInput"
+                 size="35" type="text"  
+                />                
+                
+          <label for="memberinvite.inviteemessage" >Beskjed til personen du vil invitere (valgfritt)</label>
+          <textarea title="Skriv en melding til personen du vil invitere her" 
+                    name="invitemember.inviteemessage:record:ustring:utf8"
+                    class="textInput"
+                    tal:content="options/invitemember/inviteemessage | nothing"
+                 rows="3" cols="26"></textarea>   
+                
+          <label for="memberinvite.adminemessage" >Beskjed til web-redaktøren (om hvorfor du inviterer denne personen) <em>*</em></label>
+          <textarea title="Skriv en melding til web-redaktøren hvor du begrunner invitasjonen" 
+                    name="invitemember.adminmessage:record:ustring:utf8"
+                    class="textInput"
+                    tal:content="options/invitemember/adminmessage | nothing"
+                 rows="3" cols="26"></textarea>                
+                                  
+        </fieldset>
+
+        <div class="buttonHolder">
+          <button type="submit" class="submitButton">Send invitasjon.</button>
+        </div>
+      </form>
+      
+
+
+    </tal:main>
+
+</body>
+</html>

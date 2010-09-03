@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="ksiktforum"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="KSIKTForum"
+      description="Profile for ksiktforum."
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      />
+
+</configure>

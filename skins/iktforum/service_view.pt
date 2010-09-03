@@ -1,0 +1,51 @@
+<html metal:use-macro="context/portal/content_view/macros/master" tal:condition="nothing">
+  <head>
+    <title>temaside</title>
+    <metal:block metal:fill-slot="css">
+	    
+      <link rel="stylesheet" type="text/css" tal:attributes="href context/superfish-1.4.8/css/superfish.css/absolute_url">
+      <link rel="stylesheet" type="text/css" tal:attributes="href context/superfish-1.4.8/css/superfish-vertical.css/absolute_url">
+	 </metal:block>   	 
+   <metal:block metal:fill-slot="scripts">
+      <script type="text/javascript" src="" tal:attributes="src context/iktforum_script/jquery-1.2.6.min.js/absolute_url"></script>
+      <script type="text/javascript" src="" tal:attributes="src context/superfish-1.4.8/js/superfish.js/absolute_url"></script>
+      <script type="text/javascript" src="" tal:attributes="src context/superfish-1.4.8/js/hoverIntent.js/absolute_url"></script>
+      <script type="text/javascript" src="" tal:attributes="src context/superfish-1.4.8/js/supersubs.js/absolute_url"></script>
+      <script type="text/javascript">  
+        $(document).ready(function(){ 
+            $("ul.sf-menu").superfish({ 
+                animation: {height:'show'},   // slide-down effect without fade-in 
+                delay:     200               // 1.2 second delay on mouseout 
+            }); 
+        }); 
+      </script>
+   </metal:block>	 
+  </head>
+  <body>
+		<div metal:fill-slot="mainbottom" tal:define="content context/service_view.py" tal:omit-tag="">
+       <p>
+		 	Sorter etter: 
+			 <a href="" tal:attributes="href context/absolute_url" tal:condition="exists: request/tb">Tjeneste</a>
+			 <span tal:condition="not: exists: request/tb">Tjeneste</span>/
+			 <a href="" tal:attributes="href string:${context/absolute_url}?tb=true" tal:condition="not: exists: request/tb">Tjenestebehandling</a>
+			 <span tal:condition="exists: request/tb">Tjenestebehandling</span>
+		 </p>
+
+<div class="clearfix">
+			<ul class="sf-menu sf-vertical">
+				<li tal:repeat="key content/keys"><a href="#" tal:content="string:${key}">Tjeneste 1</a>
+					<ul tal:condition="python: content[key]">
+						<li tal:repeat="akse2 python:content[key]"><a href="#" tal:content="akse2/title" tal:attributes="href akse2/url">Tjenestebehandling 1</a></li>
+						<li tal:replace="nothing"><a href="#">Tjenestebehandling 2</a></li>
+						<li tal:replace="nothing"><a href="#">Tjenestebehandling 3</a></li>						
+					</ul>
+				</li>
+				<li tal:replace="nothing"><a href="#">Tjeneste 2</a></li>
+				<li tal:replace="nothing"><a href="#">Tjeneste 3</a></li>
+				<li tal:replace="nothing"><a href="#">Tjeneste 4</a></li>												
+			</ul>
+			</div>
+ 	 		 
+		</div>
+  </body>
+</html>
